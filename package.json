@@ -21,7 +21,7 @@
     "nextjs-template",
     "react-dashboard",
     "bootstrap 5"
-    ],
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -34,6 +34,7 @@
     "bootstrap": "^5.3.1",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
+    "mongoose": "^7.4.4",
     "next": "13.4.12",
     "node-sass": "^9.0.0",
     "prism-react-renderer": "^2.0.6",
