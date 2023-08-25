@@ -12,7 +12,7 @@ const DeliverySchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "driver",
     },
-    packages: {
+    packs: {
       type: [pack],
       required: [true, "package array is required !"],
     },
