@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import _package from "utils/package";
+import _package from "utils/Package";
 import { CREATED } from "utils/status";
 
 const DeliverySchema = new Schema(
