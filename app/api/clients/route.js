@@ -28,7 +28,7 @@ export async function POST(request) {
   const client = await request.json();
   try {
     const savedClient = await create(client);
-    return NextResponse.json({ data: savedClient }, { status: 200 });
+    return NextResponse.json(savedClient, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 400 });
   }

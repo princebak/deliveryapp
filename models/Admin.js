@@ -1,8 +1,8 @@
 import { Schema, model, models } from "mongoose";
 import { ACTIVE } from "utils/status";
-import { CLIENT } from "utils/userType";
+import { ADMIN } from "utils/userType";
 
-const ClientSchema = new Schema(
+const AdminSchema = new Schema(
   {
     email: {
       type: String,
@@ -11,20 +11,19 @@ const ClientSchema = new Schema(
     },
     fullName: {
       type: String,
-      required: [true, "Client name is required !"],
+      required: [true, "Admin name is required !"],
     },
     phone: {
       type: String,
-      required: [true, "Client phone is required !"],
+      required: [true, "Admin phone is required !"],
     },
     address: {
       type: String,
-      required: [true, "Client address is required !"],
     },
     type: {
       type: String,
       required: true,
-      default: CLIENT,
+      default: ADMIN,
     },
     password: {
       type: String,
@@ -40,6 +39,6 @@ const ClientSchema = new Schema(
   { timestamps: true }
 );
 
-const ClientModel = models.client || model("client", ClientSchema);
+const AdminModel = models.admin || model("admin", AdminSchema);
 
-export default ClientModel;
+export default AdminModel;

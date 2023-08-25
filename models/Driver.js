@@ -1,8 +1,8 @@
 import { Schema, model, models } from "mongoose";
 import { ACTIVE } from "utils/status";
-import { CLIENT } from "utils/userType";
+import { DRIVER } from "utils/userType";
 
-const ClientSchema = new Schema(
+const DriverSchema = new Schema(
   {
     email: {
       type: String,
@@ -11,20 +11,20 @@ const ClientSchema = new Schema(
     },
     fullName: {
       type: String,
-      required: [true, "Client name is required !"],
+      required: [true, "Driver name is required !"],
     },
     phone: {
       type: String,
-      required: [true, "Client phone is required !"],
+      required: [true, "Driver phone is required !"],
     },
     address: {
       type: String,
-      required: [true, "Client address is required !"],
+      required: [true, "Driver address is required !"],
     },
     type: {
       type: String,
       required: true,
-      default: CLIENT,
+      default: DRIVER,
     },
     password: {
       type: String,
@@ -36,10 +36,13 @@ const ClientSchema = new Schema(
       type: String,
       default: ACTIVE,
     },
+    location:{
+        type:{latitude:Number, longitude:Number}
+    }
   },
   { timestamps: true }
 );
 
-const ClientModel = models.client || model("client", ClientSchema);
+const DriverModel = models.driver || model("driver", DriverSchema);
 
-export default ClientModel;
+export default DriverModel;
