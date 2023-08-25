@@ -1,5 +1,4 @@
-import { Schema, model, models } from "mongoose";
-import { pack } from "utils/pack";
+import mongoose, { Schema, model, models } from "mongoose";
 import { CREATED } from "utils/status";
 
 const DeliverySchema = new Schema(
@@ -13,7 +12,22 @@ const DeliverySchema = new Schema(
       ref: "driver",
     },
     packs: {
-      type: [pack],
+      type: [
+        {
+          items: [
+            {
+              name: String,
+              quantity: Number,
+              note: String,
+            },
+          ],
+          status: { type: String, default: "" + CREATED },
+          beneficiaryPhone: String,
+          beneficiaryAddress: String,
+          beneficiaryEmail: String,
+          note: String,
+        },
+      ],
       required: [true, "package array is required !"],
     },
     note: {
@@ -22,7 +36,7 @@ const DeliverySchema = new Schema(
     },
     status: {
       type: String,
-      default: CREATED,
+      default: "" + CREATED,
     },
   },
   { timestamps: true }

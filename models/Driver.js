@@ -24,7 +24,7 @@ const DriverSchema = new Schema(
     type: {
       type: String,
       required: true,
-      default: DRIVER,
+      default: "" + DRIVER,
     },
     password: {
       type: String,
@@ -34,11 +34,11 @@ const DriverSchema = new Schema(
     },
     status: {
       type: String,
-      default: ACTIVE,
+      default: "" + ACTIVE,
     },
-    location:{
-        type:{latitude:Number, longitude:Number}
-    }
+    location: {
+      type: { latitude: Number, longitude: Number },
+    },
   },
   { timestamps: true }
 );

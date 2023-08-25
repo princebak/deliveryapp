@@ -23,7 +23,7 @@ const AdminSchema = new Schema(
     type: {
       type: String,
       required: true,
-      default: ADMIN,
+      default: "" + ADMIN,
     },
     password: {
       type: String,
@@ -33,7 +33,7 @@ const AdminSchema = new Schema(
     },
     status: {
       type: String,
-      default: ACTIVE,
+      default: "" + ACTIVE,
     },
   },
   { timestamps: true }

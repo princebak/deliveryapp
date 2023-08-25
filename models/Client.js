@@ -24,7 +24,7 @@ const ClientSchema = new Schema(
     type: {
       type: String,
       required: true,
-      default: CLIENT,
+      default: "" + CLIENT,
     },
     password: {
       type: String,
@@ -34,7 +34,7 @@ const ClientSchema = new Schema(
     },
     status: {
       type: String,
-      default: ACTIVE,
+      default: "" + ACTIVE,
     },
   },
   { timestamps: true }
