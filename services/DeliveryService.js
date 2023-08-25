@@ -36,6 +36,25 @@ export const update = async (delivery) => {
   return delivery;
 };
 
+export const remove = async (id) => {
+  console.log("removing delivery with id >> ", id);
+  // set status to removed on the database
+  const delivery = await DeliveryModel.findOne({ _id: id });
+  if (delivery.status === CREATED) {
+    await DeliveryModel.findOneAndUpdate({ _id: id }, { status: REMOVED });
+    return {
+      message: "The delivery was successfully removed.",
+      status: 200,
+    };
+  } else {
+    return {
+      message:
+        "The delivery status should be on CREATED to be removed, which means not affected to any Driver.",
+      status: 400,
+    };
+  }
+};
+
 export const assignToDriver = async ({ deliveryId, driverId }) => {
   // update delivery on the database
   console.log(`assign To Driver ${driverId} to Delivery ${deliveryId}`);
@@ -96,13 +115,16 @@ export const pickUpByDriver = async ({ deliveryId }) => {
   }
 };
 
-export const deliver = async ({ id }) => {
+export const deliver = async ({ deliveryId, validationCode }) => {
   // update delivery on the database
-  console.log(`deliver delivery ${driverId}`);
-  const delivery = await DeliveryModel.findOne({ _id: id });
+  console.log(`deliver delivery ${deliveryId}`);
+  const delivery = await DeliveryModel.findOne({ _id: deliveryId });
 
   if (delivery.status === ON_THE_WAY) {
-    await DeliveryModel.findByIdAndUpdate({ _id: id }, { status: DELIVERED });
+    await DeliveryModel.findByIdAndUpdate(
+      { _id: deliveryId },
+      { status: DELIVERED }
+    );
     return {
       message: "the delivery is delivered successfully.",
       status: 200,
@@ -111,25 +133,6 @@ export const deliver = async ({ id }) => {
     return {
       message:
         "the delivery can not be delivered, because it's status is not ON_THE_WAY, which means no Driver has picked it up.",
-      status: 400,
-    };
-  }
-};
-
-export const remove = async (id) => {
-  console.log("removing delivery with id >> ", id);
-  // set status to removed on the database
-  const delivery = await DeliveryModel.findOne({ _id: id });
-  if (delivery.status === CREATED) {
-    await DeliveryModel.findOneAndUpdate({ _id: id }, { status: REMOVED });
-    return {
-      message: "The delivery was successfully removed.",
-      status: 200,
-    };
-  } else {
-    return {
-      message:
-        "The delivery status should be on CREATED to be removed, which means not affected to any Driver.",
       status: 400,
     };
   }
