@@ -1,5 +1,5 @@
 import { Schema, model, models } from "mongoose";
-import _package from "utils/Package";
+import { pack } from "utils/pack";
 import { CREATED } from "utils/status";
 
 const DeliverySchema = new Schema(
@@ -13,7 +13,7 @@ const DeliverySchema = new Schema(
       ref: "driver",
     },
     packages: {
-      type: [_package],
+      type: [pack],
       required: [true, "package array is required !"],
     },
     note: {

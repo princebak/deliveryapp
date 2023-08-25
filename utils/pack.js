@@ -1,6 +1,6 @@
 import { CREATED } from "./status";
 
-export default Package = {
+export const pack = {
   items: [Item],
   status: (String = CREATED),
   beneficiaryPhone: String,
