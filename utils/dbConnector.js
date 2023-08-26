@@ -9,9 +9,10 @@ export const dbConnector = async () => {
     console.log("MongoDB is already connected !");
     return;
   }
-
+  const MONGODB_URI =
+    "mongodb+srv://princebak:princebak@bakil-free-cluster.oejtkcq.mongodb.net/deliveryapp?retryWrites=true&w=majority";
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(MONGODB_URI, {
       dbName: "deliveryapp",
       useNewUrlParser: true,
       useUnifiedTopology: true,

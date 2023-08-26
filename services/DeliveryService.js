@@ -14,6 +14,8 @@ export const create = async (delivery) => {
 export const findAll = async () => {
   // find deliveries from database
   console.log("finding all deliveries");
+    await dbConnector();
+
   const deliveries = await DeliveryModel.find({ status: $not(REMOVED) });
   return deliveries;
 };
@@ -30,6 +32,8 @@ export const findById = async (id) => {
 export const update = async (delivery) => {
   // update delivery on the database
   console.log("updating delivery >> ", delivery);
+    await dbConnector();
+
   await DeliveryModel.findOneAndUpdate({ _id: delivery._id }, delivery);
   console.log("Delivery updated >> ", delivery);
 
@@ -39,6 +43,8 @@ export const update = async (delivery) => {
 export const remove = async (id) => {
   console.log("removing delivery with id >> ", id);
   // set status to removed on the database
+    await dbConnector();
+
   const delivery = await DeliveryModel.findOne({ _id: id });
   if (delivery.status === CREATED) {
     await DeliveryModel.findOneAndUpdate({ _id: id }, { status: REMOVED });
@@ -58,6 +64,8 @@ export const remove = async (id) => {
 export const assignToDriver = async ({ deliveryId, driverId }) => {
   // update delivery on the database
   console.log(`assign To Driver ${driverId} to Delivery ${deliveryId}`);
+    await dbConnector();
+
   const driver = await DriverModel.findOne({ _id: driverId });
   const delivery = await DeliveryModel.findOne({ _id: deliveryId });
 
@@ -78,6 +86,8 @@ export const assignToDriver = async ({ deliveryId, driverId }) => {
 export const removeFromDriver = async ({ deliveryId, driverId }) => {
   // update delivery on the database
   console.log(`assign To Driver ${driverId} to Delivery ${deliveryId}`);
+    await dbConnector();
+
   const driver = await DriverModel.findOne({ _id: driverId });
   const delivery = await DeliveryModel.findOne({ _id: deliveryId });
 
@@ -98,6 +108,8 @@ export const removeFromDriver = async ({ deliveryId, driverId }) => {
 export const pickUpByDriver = async ({ deliveryId }) => {
   // update delivery on the database
   console.log(`pickup delivery ${driverId}`);
+    await dbConnector();
+
   const delivery = await DeliveryModel.findOne({ _id: deliveryId });
 
   if (delivery.status === PENDING) {
@@ -118,6 +130,8 @@ export const pickUpByDriver = async ({ deliveryId }) => {
 export const deliver = async ({ deliveryId, validationCode }) => {
   // update delivery on the database
   console.log(`deliver delivery ${deliveryId}`);
+    await dbConnector();
+
   const delivery = await DeliveryModel.findOne({ _id: deliveryId });
 
   if (delivery.status === ON_THE_WAY) {

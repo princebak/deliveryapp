@@ -13,6 +13,8 @@ export const create = async (driver) => {
 export const findAll = async () => {
   // find drivers from database
   console.log("finding all drivers");
+  await dbConnector();
+
   const drivers = await DriverModel.find({ status: $or(ACTIVE, BLOCKED) });
   return drivers;
 };
@@ -32,6 +34,8 @@ export const findById = async (id) => {
 export const update = async (driver) => {
   // update driver on the database
   console.log("updating driver >> ", driver);
+  await dbConnector();
+
   await DriverModel.findOneAndUpdate({ _id: driver._id }, driver);
   console.log("Driver updated >> ", driver);
 
@@ -41,23 +45,31 @@ export const update = async (driver) => {
 export const remove = async (id) => {
   console.log("removing driver with id >> ", id);
   // set status to removed on the database
+  await dbConnector();
+
   await DriverModel.findOneAndUpdate({ _id: id }, { status: REMOVED });
 };
 
 export const block = async (id) => {
   console.log("blocking driver with id >> ", id);
   // set status to blocked on the database
+  await dbConnector();
+
   await DriverModel.findOneAndUpdate({ _id: id }, { status: BLOCKED });
 };
 
 export const unblock = async (id) => {
   console.log("unblocking driver with id >> ", id);
   // set status to active on the database
+  await dbConnector();
+
   await DriverModel.findOneAndUpdate({ _id: id }, { status: ACTIVE });
 };
 
 export const submitLocation = async (id, location) => {
   console.log("unblocking driver with id >> ", id);
   // set status to active on the database
+  await dbConnector();
+
   await DriverModel.findOneAndUpdate({ _id: id }, { location: location });
 };

@@ -13,6 +13,8 @@ export const create = async (admin) => {
 export const findAll = async () => {
   // find admins from database
   console.log("finding all admins");
+  await dbConnector();
+
   const admins = await AdminModel.find({ status: ACTIVE });
   return admins;
 };
@@ -32,6 +34,8 @@ export const findById = async (id) => {
 export const update = async (admin) => {
   // update admin on the database
   console.log("updating admin >> ", admin);
+  await dbConnector();
+
   await AdminModel.findOneAndUpdate({ _id: admin._id }, admin);
   console.log("Admin updated >> ", admin);
 
@@ -41,17 +45,23 @@ export const update = async (admin) => {
 export const remove = async (id) => {
   console.log("removing admin with id >> ", id);
   // set status to removed on the database
+  await dbConnector();
+
   await AdminModel.findOneAndUpdate({ _id: id }, { status: REMOVED });
 };
 
 export const block = async (id) => {
   console.log("blocking admin with id >> ", id);
   // set status to blocked on the database
+  await dbConnector();
+
   await AdminModel.findOneAndUpdate({ _id: id }, { status: BLOCKED });
 };
 
 export const unblock = async (id) => {
   console.log("unblocking admin with id >> ", id);
   // set status to active on the database
+  await dbConnector();
+
   await AdminModel.findOneAndUpdate({ _id: id }, { status: ACTIVE });
 };

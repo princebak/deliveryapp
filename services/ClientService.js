@@ -13,6 +13,8 @@ export const create = async (client) => {
 export const findAll = async () => {
   // find clients from database
   console.log("finding all clients");
+  await dbConnector();
+
   const clients = await ClientModel.find({ status: ACTIVE });
   return clients;
 };
@@ -29,6 +31,8 @@ export const findById = async (id) => {
 export const update = async (client) => {
   // update client on the database
   console.log("updating client >> ", client);
+  await dbConnector();
+
   await ClientModel.findOneAndUpdate({ _id: client._id }, client);
   console.log("Client updated >> ", client);
 
@@ -38,17 +42,23 @@ export const update = async (client) => {
 export const remove = async (id) => {
   console.log("removing client with id >> ", id);
   // set status to removed on the database
+  await dbConnector();
+
   await ClientModel.findOneAndUpdate({ _id: id }, { status: REMOVED });
 };
 
 export const block = async (id) => {
   console.log("blocking client with id >> ", id);
   // set status to blocked on the database
+  await dbConnector();
+
   await ClientModel.findOneAndUpdate({ _id: id }, { status: REMOVED });
 };
 
 export const unblock = async (id) => {
   console.log("unblocking client with id >> ", id);
   // set status to blocked on the database
+  await dbConnector();
+
   await ClientModel.findOneAndUpdate({ _id: id }, { status: ACTIVE });
 };
