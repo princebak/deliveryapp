@@ -31,7 +31,7 @@ export const findAll = async () => {
 
   const deliveries = await DeliveryModel.find({
     status: { $not: { $eq: REMOVED } },
-  });
+  }).populate(["client", "driver"]);
   return deliveries;
 };
 
@@ -42,7 +42,7 @@ export const findById = async (id) => {
   const delivery = await DeliveryModel.findOne({
     _id: id,
     status: { $not: { $eq: REMOVED } },
-  });
+  }).populate("client", "driver");
   console.log("Found delivery >> ", delivery);
   return delivery;
 };

@@ -40,6 +40,6 @@ const ClientSchema = new Schema(
   { timestamps: true }
 );
 
-const ClientModel = models.client || model("client", ClientSchema);
+const ClientModel = models.Client || model("Client", ClientSchema);
 
 export default ClientModel;

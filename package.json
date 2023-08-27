@@ -1,26 +1,13 @@
 {
-  "name": "dashui-free-nextjs-admin-template",
+  "name": "deliveryapp",
   "version": "1.1.0",
   "private": true,
   "author": {
-    "name": "codescandy",
-    "url": "https://codescandy.com"
+    "name": "pribakil",
+    "url": "https://pribakil.com"
   },
   "keywords": [
-    "react",
-    "javascript",
-    "admin",
-    "dashboard",
-    "nextjs",
-    "nextjs13",
-    "admin-dashboard",
-    "free",
-    "admin-template",
-    "admin-panel",
-    "freebies",
-    "nextjs-template",
-    "react-dashboard",
-    "bootstrap 5"
+    "delivery"
   ],
   "scripts": {
     "dev": "next dev",

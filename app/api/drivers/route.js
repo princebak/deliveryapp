@@ -13,14 +13,14 @@ export async function PUT(request) {
   }
 }
 
-// export async function POST(request) {
-//   console.log("creating a driver");
+export async function POST(request) {
+  console.log("creating a driver");
 
-//   try {
-//     const driver = await request.json();
-//     const savedDriver = await create(driver);
-//     return NextResponse.json(savedDriver, { status: 200 });
-//   } catch (error) {
-//     return NextResponse.json({ error }, { status: 400 });
-//   }
-// }
+  try {
+    const driver = await request.json();
+    const savedDriver = await create(driver);
+    return NextResponse.json(savedDriver, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 400 });
+  }
+}

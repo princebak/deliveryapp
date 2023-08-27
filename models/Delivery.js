@@ -5,16 +5,16 @@ const DeliverySchema = new Schema(
   {
     client: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "client",
+      ref: "Client",
     },
     driver: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "driver",
+      ref: "Driver",
     },
     packs: {
       type: [
         {
-          code: { type: String },
+          code: { type: String, required: true },
           items: {
             type: [
               {
@@ -46,6 +46,6 @@ const DeliverySchema = new Schema(
   { timestamps: true }
 );
 
-const DeliveryModel = models.delivery || model("delivery", DeliverySchema);
+const DeliveryModel = models.Delivery || model("Delivery", DeliverySchema);
 
 export default DeliveryModel;

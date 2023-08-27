@@ -43,6 +43,6 @@ const DriverSchema = new Schema(
   { timestamps: true }
 );
 
-const DriverModel = models.driver || model("driver", DriverSchema);
+const DriverModel = models.Driver || model("Driver", DriverSchema);
 
 export default DriverModel;
