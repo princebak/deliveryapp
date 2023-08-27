@@ -15,7 +15,9 @@ export const findAll = async () => {
   console.log("finding all clients");
   await dbConnector();
 
-  const clients = await ClientModel.find({ status: ACTIVE });
+  const clients = await ClientModel.find({
+    status: { $not: { $eq: REMOVED } },
+  });
   return clients;
 };
 
@@ -23,7 +25,10 @@ export const findById = async (id) => {
   // find client by id from database
   console.log("finding client by id >> ", id);
   await dbConnector();
-  const client = await ClientModel.findOne({ _id: id, status: ACTIVE });
+  const client = await ClientModel.findOne({
+    _id: id,
+    status: { $not: { $eq: REMOVED } },
+  });
   console.log("Found client >> ", client);
   return client;
 };

@@ -29,7 +29,9 @@ export const findAll = async () => {
   console.log("finding all deliveries");
   await dbConnector();
 
-  const deliveries = await DeliveryModel.find({ status: $not(REMOVED) });
+  const deliveries = await DeliveryModel.find({
+    status: { $not: { $eq: REMOVED } },
+  });
   return deliveries;
 };
 
@@ -37,7 +39,10 @@ export const findById = async (id) => {
   // find delivery by id from database
   console.log("finding delivery by id >> ", id);
   await dbConnector();
-  const delivery = await DeliveryModel.findOne({ _id: id });
+  const delivery = await DeliveryModel.findOne({
+    _id: id,
+    status: { $not: { $eq: REMOVED } },
+  });
   console.log("Found delivery >> ", delivery);
   return delivery;
 };

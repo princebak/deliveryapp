@@ -15,7 +15,7 @@ export const findAll = async () => {
   console.log("finding all admins");
   await dbConnector();
 
-  const admins = await AdminModel.find({ status: ACTIVE });
+  const admins = await AdminModel.find({ status: { $not: { $eq: REMOVED } } });
   return admins;
 };
 
@@ -25,7 +25,7 @@ export const findById = async (id) => {
   await dbConnector();
   const admin = await AdminModel.findOne({
     _id: id,
-    status: $or(ACTIVE, BLOCKED),
+    status: { $not: { $eq: REMOVED } },
   });
   console.log("Found admin >> ", admin);
   return admin;

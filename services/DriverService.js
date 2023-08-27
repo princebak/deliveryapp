@@ -15,7 +15,9 @@ export const findAll = async () => {
   console.log("finding all drivers");
   await dbConnector();
 
-  const drivers = await DriverModel.find({ status: $or(ACTIVE, BLOCKED) });
+  const drivers = await DriverModel.find({
+    status: { $not: { $eq: REMOVED } },
+  });
   return drivers;
 };
 
@@ -25,7 +27,7 @@ export const findById = async (id) => {
   await dbConnector();
   const driver = await DriverModel.findOne({
     _id: id,
-    status: $or(ACTIVE, BLOCKED),
+    status: { $not: { $eq: REMOVED } },
   });
   console.log("Found driver >> ", driver);
   return driver;
