@@ -1,5 +1,6 @@
 import DeliveryModel from "models/Delivery";
 import DriverModel from "models/Driver";
+import { generateCode } from "utils/codeGenerator";
 import { dbConnector } from "utils/dbConnector";
 import { CREATED, DELIVERED, ON_THE_WAY, PENDING, REMOVED } from "utils/status";
 
@@ -7,14 +8,26 @@ export const create = async (delivery) => {
   console.log("creating delivery >> ", delivery);
   // create delivery on the database
   await dbConnector();
+
+  const validatePacks = [];
+  for (let pack of delivery.packs) {
+    pack.code = await generateCode();
+    validatePacks.push(pack);
+  }
+
+  delivery.packs = validatePacks;
   const deliveryModel = new DeliveryModel(delivery);
-  return await deliveryModel.save();
+
+  const savedDelivery = deliveryModel.save();
+  console.log("savedDelivery >> ", savedDelivery);
+
+  return savedDelivery;
 };
 
 export const findAll = async () => {
   // find deliveries from database
   console.log("finding all deliveries");
-    await dbConnector();
+  await dbConnector();
 
   const deliveries = await DeliveryModel.find({ status: $not(REMOVED) });
   return deliveries;
@@ -32,7 +45,7 @@ export const findById = async (id) => {
 export const update = async (delivery) => {
   // update delivery on the database
   console.log("updating delivery >> ", delivery);
-    await dbConnector();
+  await dbConnector();
 
   await DeliveryModel.findOneAndUpdate({ _id: delivery._id }, delivery);
   console.log("Delivery updated >> ", delivery);
@@ -43,7 +56,7 @@ export const update = async (delivery) => {
 export const remove = async (id) => {
   console.log("removing delivery with id >> ", id);
   // set status to removed on the database
-    await dbConnector();
+  await dbConnector();
 
   const delivery = await DeliveryModel.findOne({ _id: id });
   if (delivery.status === CREATED) {
@@ -64,7 +77,7 @@ export const remove = async (id) => {
 export const assignToDriver = async ({ deliveryId, driverId }) => {
   // update delivery on the database
   console.log(`assign To Driver ${driverId} to Delivery ${deliveryId}`);
-    await dbConnector();
+  await dbConnector();
 
   const driver = await DriverModel.findOne({ _id: driverId });
   const delivery = await DeliveryModel.findOne({ _id: deliveryId });
@@ -86,7 +99,7 @@ export const assignToDriver = async ({ deliveryId, driverId }) => {
 export const removeFromDriver = async ({ deliveryId, driverId }) => {
   // update delivery on the database
   console.log(`assign To Driver ${driverId} to Delivery ${deliveryId}`);
-    await dbConnector();
+  await dbConnector();
 
   const driver = await DriverModel.findOne({ _id: driverId });
   const delivery = await DeliveryModel.findOne({ _id: deliveryId });
@@ -108,7 +121,7 @@ export const removeFromDriver = async ({ deliveryId, driverId }) => {
 export const pickUpByDriver = async ({ deliveryId }) => {
   // update delivery on the database
   console.log(`pickup delivery ${driverId}`);
-    await dbConnector();
+  await dbConnector();
 
   const delivery = await DeliveryModel.findOne({ _id: deliveryId });
 
@@ -130,7 +143,7 @@ export const pickUpByDriver = async ({ deliveryId }) => {
 export const deliver = async ({ deliveryId, validationCode }) => {
   // update delivery on the database
   console.log(`deliver delivery ${deliveryId}`);
-    await dbConnector();
+  await dbConnector();
 
   const delivery = await DeliveryModel.findOne({ _id: deliveryId });
 

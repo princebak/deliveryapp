@@ -67,7 +67,7 @@ export const unblock = async (id) => {
 };
 
 export const submitLocation = async (id, location) => {
-  console.log("unblocking driver with id >> ", id);
+  console.log("submitLocation driver with id >> ", id);
   // set status to active on the database
   await dbConnector();
 

@@ -14,25 +14,29 @@ const DeliverySchema = new Schema(
     packs: {
       type: [
         {
-          items: [
-            {
-              name: String,
-              quantity: Number,
-              note: String,
-            },
-          ],
+          code: { type: String },
+          items: {
+            type: [
+              {
+                name: { type: String },
+                quantity: { type: Number },
+                note: { type: String },
+              },
+            ],
+            required: true,
+          },
           status: { type: String, default: "" + CREATED },
-          beneficiaryPhone: String,
-          beneficiaryAddress: String,
-          beneficiaryEmail: String,
-          note: String,
+          beneficiaryName: { type: String },
+          beneficiaryPhone: { type: String },
+          beneficiaryAddress: { type: String },
+          beneficiaryEmail: { type: String },
+          note: { type: String },
         },
       ],
       required: [true, "package array is required !"],
     },
     note: {
       type: String,
-      required: [true, "Delivery phone is required !"],
     },
     status: {
       type: String,
