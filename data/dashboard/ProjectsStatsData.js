@@ -1,38 +1,33 @@
-import {
-	Briefcase,
-    ListTask,
-    People,
-    Bullseye
-} from 'react-bootstrap-icons';
+import { Briefcase, ListTask, People, Bullseye } from "react-bootstrap-icons";
 
 export const ProjectsStats = [
-    {
-       id:1,
-       title : "Projects",
-       value : 18,
-       icon: <Briefcase size={18}/>,
-       statInfo: '<span className="text-dark me-2">2</span> Completed' 
-    },
-    {
-        id:2,
-        title : "Active Task",
-        value : 132,
-        icon: <ListTask size={18}/>,
-        statInfo: '<span className="text-dark me-2">28</span> Completed' 
-     },
-     {
-        id:3,
-        title : "Teams",
-        value : 12,
-        icon: <People size={18}/>,
-        statInfo: '<span className="text-dark me-2">1</span> Completed' 
-     },
-     {
-        id:4,
-        title : "Productivity",
-        value : '76%',
-        icon: <Bullseye size={18}/>,
-        statInfo: '<span className="text-dark me-2">5%</span> Completed' 
-     }
+  {
+    id: 1,
+    title: "Toutes les Livraisons",
+    value: 132,
+    icon: <Briefcase size={18} />,
+    statInfo: '<span className="text-dark me-2"></span> Voir',
+  },
+  {
+    id: 2,
+    title: "Livraisons Finies",
+    value: 32,
+    icon: <ListTask size={18} />,
+    statInfo: '<span className="text-dark me-2"></span> Voir',
+  },
+  {
+    id: 3,
+    title: "Livraisons en cours",
+    value: 30,
+    icon: <People size={18} />,
+    statInfo: '<span className="text-dark me-2"></span> Voir',
+  },
+  {
+    id: 4,
+    title: "Livraisons en attente",
+    value: 20,
+    icon: <Bullseye size={18} />,
+    statInfo: '<span className="text-dark me-2"></span> Voir',
+  },
 ];
 export default ProjectsStats;

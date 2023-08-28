@@ -302,6 +302,7 @@ const NavbarVertical = (props) => {
                     {/* menu item without any children items like Documentation and Changelog items*/}
                     <Link
                       href={menu.link}
+                      style={{ marginLeft: "10px" }}
                       className={`nav-link ${
                         location === menu.link ? "active" : ""
                       } ${

@@ -145,7 +145,7 @@ export const DashboardMenu = [
   },
   {
     id: uuid(),
-    title: "Conducteurs",
+    title: "Chauffeurs",
     grouptitle: true,
   },
   {

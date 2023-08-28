@@ -28,7 +28,7 @@ const Home = () => {
                 </div>
                 <div>
                   <Link href="#" className="btn btn-white">
-                    Create New Project
+                    Voir les livraisons non affectées<span>(50)</span>
                   </Link>
                 </div>
               </div>
