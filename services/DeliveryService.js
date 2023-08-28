@@ -1,6 +1,6 @@
 import DeliveryModel from "models/Delivery";
 import DriverModel from "models/Driver";
-import { generateCode } from "utils/codeGenerator";
+import { generateDeliveryCode, generatePackCode } from "utils/codeGenerator";
 import { dbConnector } from "utils/dbConnector";
 import { CREATED, DELIVERED, ON_THE_WAY, PENDING, REMOVED } from "utils/status";
 
@@ -11,11 +11,12 @@ export const create = async (delivery) => {
 
   const validatePacks = [];
   for (let pack of delivery.packs) {
-    pack.code = await generateCode();
+    pack.code = await generatePackCode();
     validatePacks.push(pack);
   }
 
   delivery.packs = validatePacks;
+  delivery.code = await generateDeliveryCode();
   const deliveryModel = new DeliveryModel(delivery);
 
   const savedDelivery = deliveryModel.save();

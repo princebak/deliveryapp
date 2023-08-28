@@ -1,12 +1,32 @@
 import DeliveryModel from "models/Delivery";
 
-export const generateCode = async () => {
+export const generatePackCode = async () => {
   let generatedCode = "";
   try {
     while (generatedCode == "") {
       generatedCode = generate();
       let existingCode = await DeliveryModel.findOne(
         { packs: [{ code: generatedCode }] },
+        { code }
+      );
+      if (existingCode) {
+        generatedCode = "";
+      }
+    }
+  } catch (error) {
+    console.log("generateCode error >> " + error);
+  }
+
+  return generatedCode;
+};
+
+export const generateDeliveryCode = async () => {
+  let generatedCode = "";
+  try {
+    while (generatedCode == "") {
+      generatedCode = generate();
+      let existingCode = await DeliveryModel.findOne(
+        { code: generatedCode },
         { code }
       );
       if (existingCode) {

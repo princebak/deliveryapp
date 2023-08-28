@@ -3,6 +3,7 @@ import { CREATED } from "utils/status";
 
 const DeliverySchema = new Schema(
   {
+    code: { type: String, required: true, unique: true },
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Client",
@@ -14,7 +15,7 @@ const DeliverySchema = new Schema(
     packs: {
       type: [
         {
-          code: { type: String, required: true },
+          code: { type: String, required: true, unique: true },
           items: {
             type: [
               {

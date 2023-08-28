@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 /**
  *  All Dashboard Routes
  *
@@ -24,13 +24,13 @@ import { v4 as uuid } from 'uuid';
  */
 
 export const DashboardMenu = [
-	{
-		id: uuid(),
-		title: 'Dashboard',
-		icon: 'home',
-		link: '/'
-	},
-	{
+  {
+    id: uuid(),
+    title: "Tableau de bord",
+    icon: "home",
+    link: "/",
+  },
+  /* 	{
 		id: uuid(),
 		title: 'LAYOUTS & PAGES',
 		grouptitle: true
@@ -131,30 +131,63 @@ export const DashboardMenu = [
 				]
 			}
 		]
-	},	
-	{
-		id: uuid(),
-		title: 'Documentation',
-		grouptitle: true
-	},
-	{
-		id: uuid(),
-		title: 'Docs',
-		icon: 'clipboard',
-		link: '/documentation'
-	},
-	{
-		id: uuid(),
-		title: 'Changelog',
-		icon: 'git-pull-request',
-		link: '/changelog'
-	},
-	{
-		id: uuid(),
-		title: 'Download',
-		icon: 'download',
-		link: 'https://codescandy.gumroad.com/l/dashui-nextjs'
-	}
+	},	 */
+  {
+    id: uuid(),
+    title: "Livraisons",
+    grouptitle: true,
+  },
+  {
+    id: uuid(),
+    title: "Liste",
+    icon: "clipboard",
+    link: "/deliveries",
+  },
+  {
+    id: uuid(),
+    title: "Conducteurs",
+    grouptitle: true,
+  },
+  {
+    id: uuid(),
+    title: "Liste",
+    icon: "git-pull-request",
+    link: "/drivers",
+  },
+  {
+    id: uuid(),
+    title: "Nouveau",
+    icon: "git-pull-request",
+    link: "/drivers/edit",
+  },
+  {
+    id: uuid(),
+    title: "Clients",
+    grouptitle: true,
+  },
+  {
+    id: uuid(),
+    title: "Liste",
+    icon: "git-pull-request",
+    link: "/clients",
+  },
+  {
+    id: uuid(),
+    title: "Utilisateurs",
+    grouptitle: true,
+  },
+  {
+    id: uuid(),
+    title: "Liste",
+    icon: "git-pull-request",
+    link: "/users",
+  },
+  /*  {
+    id: uuid(),
+    title: "Download",
+    icon: "download",
+    link: "https://codescandy.gumroad.com/l/dashui-nextjs",
+  }, */
 ];
 
 export default DashboardMenu;
