@@ -1,27 +1,26 @@
 "use client";
 // import node module libraries
-import { Fragment } from "react";
-import { Col, Row, Card, Table, Nav, Tab, Container } from "react-bootstrap";
+import { Fragment, useState } from "react";
+import {
+  Col,
+  Row,
+  Card,
+  Table,
+  Nav,
+  Tab,
+  Container,
+  Button,
+  Modal,
+} from "react-bootstrap";
 
 // import widget/custom components
 import { HighlightCode } from "widgets";
 
 // import react code data file
-import {
-  BasicTableCode,
-  DarkTableCode,
-  TableHeadCode,
-  StripedTableCode,
-  TableVariantCode,
-  BorderedTableCode,
-  BorderlessTableCode,
-  HoverableRowsCode,
-  SmallTableCode,
-  ContextualClassesCode,
-  ResponsiveTableCode,
-} from "data/code/TablesCode";
+import { StripedTableCode } from "data/code/TablesCode";
 
 const Tables = () => {
+  const [lgShow, setLgShow] = useState(false);
   return (
     <Container fluid className="p-6">
       <Row>
@@ -40,19 +39,16 @@ const Tables = () => {
         <Col xl={12} lg={12} md={12} sm={12}>
           <Tab.Container id="tab-container-4" defaultActiveKey="design">
             <Card>
-              <Card.Header className="border-bottom-0 p-0">
-                <Nav className="nav-lb-tab">
-                  <Nav.Item>
-                    <Nav.Link eventKey="design" className="mb-sm-3 mb-md-0">
-                      Liste
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="react" className="mb-sm-3 mb-md-0">
-                      Edition
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
+              <Card.Header className="border-bottom-0 px-4 py-2 d-flex justify-content-between">
+                <h2 className="p-0 m-0">Liste</h2>
+
+                <Button
+                  variant="primary"
+                  className="me-1"
+                  onClick={() => setLgShow(true)}
+                >
+                  Ajouter
+                </Button>
               </Card.Header>
               <Card.Body className="p-0">
                 <Tab.Content>
@@ -61,10 +57,21 @@ const Tables = () => {
                     <Table striped className="text-nowrap">
                       <thead>
                         <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">First</th>
-                          <th scope="col">Last</th>
-                          <th scope="col">Handle</th>
+                          <th scope="col" className="fw-bold">
+                            #code
+                          </th>
+                          <th scope="col" className="fw-bold">
+                            Client
+                          </th>
+                          <th scope="col" className="fw-bold">
+                            Chauffeur
+                          </th>
+                          <th scope="col" className="fw-bold">
+                            Colis
+                          </th>
+                          <th scope="col" className="fw-bold">
+                            Status
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -100,6 +107,59 @@ const Tables = () => {
         </Col>
       </Row>
       {/* end of striped-rows */}
+
+      {/* Modal */}
+      <Modal
+        size="lg"
+        show={lgShow}
+        onHide={() => setLgShow(false)}
+        aria-labelledby="example-modal-sizes-title-lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-lg">
+            {"Details d'une Livraison"}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Enter email"
+              />
+              <small id="emailHelp" class="form-text text-muted">
+                {"We'll never share your email with anyone else."}
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-group form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="exampleCheck1"
+              />
+              <label class="form-check-label" for="exampleCheck1">
+                Check me out
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              Submit
+            </button>
+          </form>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 };

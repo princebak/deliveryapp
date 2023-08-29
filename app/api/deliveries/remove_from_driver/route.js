@@ -1,3 +1,6 @@
+import { NextResponse } from "next/server";
+import { removeFromDriver } from "services/DeliveryService";
+
 export async function PUT(request) {
   // assign a delivery To a Driver
   try {

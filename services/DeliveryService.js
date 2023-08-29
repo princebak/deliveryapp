@@ -146,22 +146,43 @@ export const pickUpByDriver = async ({ deliveryId }) => {
   }
 };
 
-export const deliver = async ({ deliveryId, validationCode }) => {
+export const deliver = async (validationCode) => {
   // update delivery on the database
-  console.log(`deliver delivery ${deliveryId}`);
+  console.log(`deliver pack with validationCode >> ${validationCode}`);
   await dbConnector();
 
-  const delivery = await DeliveryModel.findOne({ _id: deliveryId });
+  const delivery = await DeliveryModel.findOne({
+    packs: [{ code: validationCode }],
+  });
 
   if (delivery.status === ON_THE_WAY) {
-    await DeliveryModel.findByIdAndUpdate(
-      { _id: deliveryId },
-      { status: DELIVERED }
-    );
-    return {
-      message: "the delivery is delivered successfully.",
-      status: 200,
-    };
+    let allPacksAreDelivered = true;
+    let validationCodeMatched = false;
+    for (let pack of delivery.packs) {
+      if (pack.code === validationCode) {
+        pack.status === DELIVERED;
+        validationCodeMatched = true;
+      }
+      if (pack.status != DELIVERED) {
+        allPacksAreDelivered = false;
+      }
+    }
+    if (validationCodeMatched) {
+      await DeliveryModel.findByIdAndUpdate(
+        { _id: delivery._id },
+        { status: DELIVERED }
+      );
+      return {
+        message: "the delivery is delivered successfully.",
+        status: 200,
+      };
+    } else {
+      return {
+        message:
+          "the delivery pack can not be delivered, because the validation code didn't match.",
+        status: 400,
+      };
+    }
   } else {
     return {
       message:
