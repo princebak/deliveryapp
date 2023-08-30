@@ -96,7 +96,7 @@ const Tables = () => {
                         {drivers.map((driver) => (
                           <tr key={driver._id}>
                             <th scope="row">{driver.fullName}</th>
-                            <td>{driver.fullName}</td>
+                            <td>{driver.email}</td>
                             <td>{driver.phone}</td>
                             <td>{driver.address}</td>
                             <td>{driver.status}</td>

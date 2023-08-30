@@ -59,14 +59,6 @@ const Tables = () => {
             <Card>
               <Card.Header className="border-bottom-0 px-4 py-2 d-flex justify-content-between">
                 <h2 className="p-0 m-0">Liste</h2>
-
-                <Button
-                  variant="primary"
-                  className="me-1"
-                  onClick={() => setLgShow(true)}
-                >
-                  Ajouter
-                </Button>
               </Card.Header>
               <Card.Body className="p-0">
                 <Tab.Content>
@@ -96,7 +88,7 @@ const Tables = () => {
                         {clients.map((client) => (
                           <tr key={client._id}>
                             <th scope="row">{client.fullName}</th>
-                            <td>{client.fullName}</td>
+                            <td>{client.email}</td>
                             <td>{client.phone}</td>
                             <td>{client.address}</td>
                             <td>{client.status}</td>

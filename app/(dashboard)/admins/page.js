@@ -96,7 +96,7 @@ const Tables = () => {
                         {admins.map((admin) => (
                           <tr key={admin._id}>
                             <th scope="row">{admin.fullName}</th>
-                            <td>{admin.fullName}</td>
+                            <td>{admin.email}</td>
                             <td>{admin.phone}</td>
                             <td>{admin.address}</td>
                             <td>{admin.status}</td>
