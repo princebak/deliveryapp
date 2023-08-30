@@ -156,12 +156,6 @@ export const DashboardMenu = [
   },
   {
     id: uuid(),
-    title: "Nouveau",
-    icon: "git-pull-request",
-    link: "/drivers/edit",
-  },
-  {
-    id: uuid(),
     title: "Clients",
     grouptitle: true,
   },
