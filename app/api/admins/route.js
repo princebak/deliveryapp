@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { create, findAll, submitLocation } from "services/DriverService";
+import { create, findAll } from "services/AdminService";
 
 export async function PUT(request) {
   console.log("findById Id >> ", id);
 
   try {
     const { id, latitude, longitude } = await request.json();
-    const driver = await submitLocation(id, { latitude, longitude });
+    const driver = await update(id, { latitude, longitude });
     return NextResponse.json(driver, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 400 });

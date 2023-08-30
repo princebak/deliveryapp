@@ -16,14 +16,8 @@ const DeliverySchema = new Schema(
       type: [
         {
           code: { type: String, required: true, unique: true },
-          items: {
-            type: [
-              {
-                name: { type: String },
-                quantity: { type: Number },
-                note: { type: String },
-              },
-            ],
+          itemsDescription: {
+            type: String,
             required: true,
           },
           status: { type: String, default: "" + CREATED },

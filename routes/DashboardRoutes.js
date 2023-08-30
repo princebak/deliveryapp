@@ -180,7 +180,7 @@ export const DashboardMenu = [
     id: uuid(),
     title: "Liste",
     icon: "git-pull-request",
-    link: "/users",
+    link: "/admins",
   },
   /*  {
     id: uuid(),

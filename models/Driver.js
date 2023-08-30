@@ -4,7 +4,7 @@ import { DRIVER } from "utils/userType";
 
 const DriverSchema = new Schema(
   {
-    email: {
+    fullName: {
       type: String,
       unique: [true, "Email already exists !"],
       required: [true, "Email is required !"],

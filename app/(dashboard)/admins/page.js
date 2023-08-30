@@ -22,14 +22,13 @@ import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
 
 const Tables = () => {
-  const [deliveries, setDeliveries] = useState([]);
+  const [admins, setDeliveries] = useState([]);
   const [lgShow, setLgShow] = useState(false);
-  const [activeDelivery, setActiveDelivery] = useState(null);
 
   useEffect(() => {
     console.log("In useEffect");
     const fetchData = async () => {
-      const response = await fetch("/api/deliveries");
+      const response = await fetch("/api/admins");
       const data = await response.json();
       console.log("Data >> ", data);
       setDeliveries(data);
@@ -37,7 +36,7 @@ const Tables = () => {
     fetchData();
   }, []);
 
-  if (!deliveries) {
+  if (!admins) {
     return <p>Loading...</p>;
   }
   return (
@@ -46,8 +45,8 @@ const Tables = () => {
         <Col lg={12} md={12} sm={12}>
           <div className="border-bottom pb-4 mb-4 d-md-flex align-items-center justify-content-between">
             <div className="mb-3 mb-md-0">
-              <h1 className="mb-1 h2 fw-bold">Livraisons</h1>
-              <p className="mb-0 ">Liste des livraisons.</p>
+              <h1 className="mb-1 h2 fw-bold">Utilisateurs</h1>
+              <p className="mb-0 ">Liste des utilisateurs.</p>
             </div>
           </div>
         </Col>
@@ -60,6 +59,14 @@ const Tables = () => {
             <Card>
               <Card.Header className="border-bottom-0 px-4 py-2 d-flex justify-content-between">
                 <h2 className="p-0 m-0">Liste</h2>
+
+                <Button
+                  variant="primary"
+                  className="me-1"
+                  onClick={() => setLgShow(true)}
+                >
+                  Ajouter
+                </Button>
               </Card.Header>
               <Card.Body className="p-0">
                 <Tab.Content>
@@ -69,51 +76,30 @@ const Tables = () => {
                       <thead>
                         <tr>
                           <th scope="col" className="fw-bold">
-                            #code
+                            #Nom
                           </th>
                           <th scope="col" className="fw-bold">
-                            Id Client
+                            E-mail
                           </th>
                           <th scope="col" className="fw-bold">
-                            Id Chauffeur
+                            Phone
                           </th>
                           <th scope="col" className="fw-bold">
-                            Colis
+                            Adresse
                           </th>
                           <th scope="col" className="fw-bold">
                             Status
                           </th>
-                          <th scope="col" className="fw-bold">
-                            Actions
-                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {deliveries.map((delivery) => (
-                          <tr key={delivery.code}>
-                            <th scope="row">{delivery.code}</th>
-                            <td>{delivery.client}</td>
-                            <td>{delivery.driver}</td>
-                            <td>
-                              {delivery.packs.map(
-                                (pack) =>
-                                  pack.items.map((item) => item.name + ",") +
-                                  "; "
-                              )}
-                            </td>
-                            <td>{delivery.status}</td>
-                            <td>
-                              <Button
-                                variant="primary"
-                                className="me-1"
-                                onClick={() => {
-                                  setActiveDelivery(delivery._id);
-                                  setLgShow(true);
-                                }}
-                              >
-                                Ajouter
-                              </Button>
-                            </td>
+                        {admins.map((admin) => (
+                          <tr key={admin._id}>
+                            <th scope="row">{admin.fullName}</th>
+                            <td>{admin.fullName}</td>
+                            <td>{admin.phone}</td>
+                            <td>{admin.address}</td>
+                            <td>{admin.status}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -148,15 +134,17 @@ const Tables = () => {
             <div className="d-flex flex-wrap gap-2">
               <div className="flex-fill">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">
-                    Affecter au chauffeur la livraison {}
-                  </label>
-                  <select
-                    aria-describedby="driverHelp"
-                    className="form-control"
-                  >
-                    <option>driver</option>
-                  </select>
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    placeholder="Enter email"
+                  />
+                  <small id="emailHelp" class="form-text text-muted">
+                    {"We'll never share your email with anyone else."}
+                  </small>
                 </div>
               </div>
 

@@ -32,7 +32,7 @@ export const findAll = async () => {
 
   const deliveries = await DeliveryModel.find({
     status: { $not: { $eq: REMOVED } },
-  }).populate(["client", "driver"]);
+  }); //.populate(["client", "driver"]);
   return deliveries;
 };
 
@@ -43,7 +43,7 @@ export const findById = async (id) => {
   const delivery = await DeliveryModel.findOne({
     _id: id,
     status: { $not: { $eq: REMOVED } },
-  }).populate("client", "driver");
+  }); //.populate("client", "driver");
   console.log("Found delivery >> ", delivery);
   return delivery;
 };
@@ -98,7 +98,11 @@ export const assignToDriver = async ({ deliveryId, driverId }) => {
       status: 200,
     };
   } else {
-    return { message: "the driver doesn't exist.", status: 400 };
+    return {
+      message:
+        "the driver doesn't exist, or the delivery status is not on CREATED.",
+      status: 400,
+    };
   }
 };
 
@@ -120,7 +124,11 @@ export const removeFromDriver = async ({ deliveryId, driverId }) => {
       status: 200,
     };
   } else {
-    return { message: "the driver doesn't exist.", status: 400 };
+    return {
+      message:
+        "the driver doesn't exist or th delivery status is not on PENDING.",
+      status: 400,
+    };
   }
 };
 
