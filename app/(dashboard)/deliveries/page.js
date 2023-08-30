@@ -20,20 +20,44 @@ import { HighlightCode } from "widgets";
 // import react code data file
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
+import { ResponsiveMenuAlignmentCode2 } from "data/code/DropdownsCode";
 
 const Tables = () => {
   const [deliveries, setDeliveries] = useState([]);
   const [lgShow, setLgShow] = useState(false);
-  const [activeDelivery, setActiveDelivery] = useState(null);
+  const [activeDelivery, setActiveDelivery] = useState({ id: "", code: "" });
+  const [driverId, setDriverId] = useState("");
+  const [drivers, setDrivers] = useState([]);
+
+  const assignToDriver = async () => {
+    const response = await axios.put("/api/deliveries/assign_to_driver", {
+      deliveryId: activeDelivery.id,
+      driverId,
+    });
+    await fetchData();
+  };
+
+  const removeFromDriver = async (deliveryId, driverId) => {
+    const response = await axios.put("/api/deliveries/remove_from_driver", {
+      deliveryId,
+      driverId,
+    });
+    await fetchData();
+  };
+
+  const fetchData = async () => {
+    const response = await fetch("/api/deliveries");
+    const data = await response.json();
+    console.log("Data >> ", data);
+    setDeliveries(data);
+
+    const response2 = await fetch("/api/drivers");
+    const data2 = await response2.json();
+    console.log("Data2 >> ", data2);
+    setDrivers(data2);
+  };
 
   useEffect(() => {
-    console.log("In useEffect");
-    const fetchData = async () => {
-      const response = await fetch("/api/deliveries");
-      const data = await response.json();
-      console.log("Data >> ", data);
-      setDeliveries(data);
-    };
     fetchData();
   }, []);
 
@@ -106,13 +130,36 @@ const Tables = () => {
                               <Button
                                 variant="primary"
                                 className="me-1"
+                                size="sm"
                                 onClick={() => {
-                                  setActiveDelivery(delivery._id);
+                                  setActiveDelivery({
+                                    id: delivery._id,
+                                    code: delivery.code,
+                                  });
                                   setLgShow(true);
                                 }}
                               >
-                                Ajouter
+                                {delivery.status === "created"
+                                  ? "Affecter"
+                                  : "ReAffecter"}
                               </Button>
+                              {delivery.status === "pending" ? (
+                                <Button
+                                  variant="primary"
+                                  className="me-1"
+                                  size="sm"
+                                  onClick={() => {
+                                    removeFromDriver(
+                                      delivery._id,
+                                      delivery.driver
+                                    );
+                                  }}
+                                >
+                                  Retirer
+                                </Button>
+                              ) : (
+                                ""
+                              )}
                             </td>
                           </tr>
                         ))}
@@ -140,51 +187,42 @@ const Tables = () => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
-            {"Details d'une Livraison"}
+            {"Affectation d'une Livraison"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="d-flex flex-column gap-10">
             <div className="d-flex flex-wrap gap-2">
               <div className="flex-fill">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">
-                    Affecter au chauffeur la livraison {}
+                <div className="form-group">
+                  <label>
+                    Affecter au chauffeur la livraison avec le code{" "}
+                    <strong>{activeDelivery.code}</strong>
                   </label>
                   <select
                     aria-describedby="driverHelp"
                     className="form-control"
+                    onChange={(e) => setDriverId(e.target.value)}
+                    value={driverId}
                   >
-                    <option>driver</option>
+                    {drivers.map((driver) => (
+                      <option key={driver._id} value={driver._id}>
+                        {driver.fullName}
+                      </option>
+                    ))}
                   </select>
-                </div>
-              </div>
-
-              <div className="flex-fill">
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Password"
-                  />
-                </div>
-                <div class="form-group form-check">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    id="exampleCheck1"
-                  />
-                  <label class="form-check-label" for="exampleCheck1">
-                    Check me out
-                  </label>
                 </div>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">
-              Submit
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={() => {
+                assignToDriver();
+              }}
+            >
+              Enregistrer
             </button>
           </form>
         </Modal.Body>
