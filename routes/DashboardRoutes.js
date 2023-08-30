@@ -134,45 +134,25 @@ export const DashboardMenu = [
 	},	 */
   {
     id: uuid(),
-    title: "Livraisons",
-    grouptitle: true,
-  },
-  {
-    id: uuid(),
-    title: "Liste",
+    title: "Les Livraisons",
     icon: "clipboard",
     link: "/deliveries",
   },
   {
     id: uuid(),
-    title: "Chauffeurs",
-    grouptitle: true,
-  },
-  {
-    id: uuid(),
-    title: "Liste",
+    title: "Les Chauffeurs",
     icon: "git-pull-request",
     link: "/drivers",
   },
   {
     id: uuid(),
-    title: "Clients",
-    grouptitle: true,
-  },
-  {
-    id: uuid(),
-    title: "Liste",
+    title: "Les Clients",
     icon: "git-pull-request",
     link: "/clients",
   },
   {
     id: uuid(),
-    title: "Utilisateurs",
-    grouptitle: true,
-  },
-  {
-    id: uuid(),
-    title: "Liste",
+    title: "Les Utilisateurs",
     icon: "git-pull-request",
     link: "/admins",
   },

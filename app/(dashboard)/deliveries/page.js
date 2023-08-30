@@ -120,9 +120,7 @@ const Tables = () => {
                             <td>{delivery.driver}</td>
                             <td>
                               {delivery.packs.map(
-                                (pack) =>
-                                  pack.items.map((item) => item.name + ",") +
-                                  "; "
+                                (pack) => pack.itemsDescription + "; "
                               )}
                             </td>
                             <td>{delivery.status}</td>
