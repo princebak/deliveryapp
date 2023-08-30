@@ -5,22 +5,24 @@ export async function PUT(request) {
   console.log("findById Id >> ", id);
 
   try {
-    const { id, latitude, longitude } = await request.json();
-    const driver = await update(id, { latitude, longitude });
-    return NextResponse.json(driver, { status: 200 });
+    const payload = await request.json();
+    const admin = await update(payload);
+    return NextResponse.json(admin, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error }, { status: 400 });
   }
 }
 
 export async function POST(request) {
-  console.log("creating a driver");
+  console.log("creating a admin");
 
   try {
-    const driver = await request.json();
-    const savedDriver = await create(driver);
+    const admin = await request.json();
+    console.log("Admin >> ", admin);
+    const savedDriver = await create(admin);
     return NextResponse.json(savedDriver, { status: 200 });
   } catch (error) {
+    console.log("Saving admin error >> ", error);
     return NextResponse.json({ error }, { status: 400 });
   }
 }

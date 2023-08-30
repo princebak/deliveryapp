@@ -29,12 +29,14 @@ const Tables = () => {
   const [driverId, setDriverId] = useState("");
   const [drivers, setDrivers] = useState([]);
 
-  const assignToDriver = async () => {
+  const assignToDriver = async (e) => {
+    e.preventDefault();
     const response = await axios.put("/api/deliveries/assign_to_driver", {
       deliveryId: activeDelivery.id,
       driverId,
     });
     await fetchData();
+    setLgShow(false);
   };
 
   const removeFromDriver = async (deliveryId, driverId) => {
@@ -43,6 +45,7 @@ const Tables = () => {
       driverId,
     });
     await fetchData();
+    setLgShow(false);
   };
 
   const fetchData = async () => {
@@ -64,6 +67,8 @@ const Tables = () => {
   if (!deliveries) {
     return <p>Loading...</p>;
   }
+
+  console.log("activeDelivery >> " + activeDelivery);
   return (
     <Container fluid className="p-6">
       <Row>
@@ -189,7 +194,12 @@ const Tables = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form className="d-flex flex-column gap-10">
+          <form
+            className="d-flex flex-column gap-10"
+            onSubmit={(e) => {
+              assignToDriver(e);
+            }}
+          >
             <div className="d-flex flex-wrap gap-2">
               <div className="flex-fill">
                 <div className="form-group">
@@ -197,11 +207,12 @@ const Tables = () => {
                     Affecter au chauffeur la livraison avec le code{" "}
                     <strong>{activeDelivery.code}</strong>
                   </label>
+
                   <select
                     aria-describedby="driverHelp"
                     className="form-control"
                     onChange={(e) => setDriverId(e.target.value)}
-                    value={driverId}
+                    value={activeDelivery.id}
                   >
                     {drivers.map((driver) => (
                       <option key={driver._id} value={driver._id}>
@@ -213,13 +224,7 @@ const Tables = () => {
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={() => {
-                assignToDriver();
-              }}
-            >
+            <button type="submit" className="btn btn-primary">
               Enregistrer
             </button>
           </form>

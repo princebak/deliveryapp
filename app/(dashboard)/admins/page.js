@@ -20,19 +20,44 @@ import { HighlightCode } from "widgets";
 // import react code data file
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
+import { generatePassword } from "utils/passwordGenerator";
 
 const Tables = () => {
   const [admins, setDeliveries] = useState([]);
   const [lgShow, setLgShow] = useState(false);
 
-  useEffect(() => {
-    console.log("In useEffect");
-    const fetchData = async () => {
-      const response = await fetch("/api/admins");
-      const data = await response.json();
-      console.log("Data >> ", data);
-      setDeliveries(data);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const password = generatePassword();
+    const data = {
+      fullName,
+      email,
+      phone,
+      address,
+      password,
     };
+    console.log("Sending >> ", data);
+    await axios.post("/api/admins", data, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    await fetchData();
+    setLgShow(false);
+  };
+  const fetchData = async () => {
+    const response = await fetch("/api/admins");
+    const data = await response.json();
+    console.log("Data >> ", data);
+    setDeliveries(data);
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -130,49 +155,69 @@ const Tables = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form className="d-flex flex-column gap-10">
+          <form
+            className="d-flex flex-column gap-10"
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <div className="d-flex flex-wrap gap-2">
               <div className="flex-fill">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
+                <div className="form-group">
+                  <label htmlFor="exampleInputEmail1">Nom complet</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleInputFullname"
+                    aria-describedby="emailFullname"
+                    placeholder="Saisir le nom complet"
+                    required
+                    onChange={(e) => setFullName(e.target.value)}
+                    value={fullName}
+                  />
+                </div>
+                <div className="form-group mt-2">
+                  <label htmlFor="exampleInputEmail1">E-mail</label>
                   <input
                     type="email"
-                    class="form-control"
+                    className="form-control"
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
-                    placeholder="Enter email"
+                    placeholder="Saisir l'e-mail"
+                    required
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
                   />
-                  <small id="emailHelp" class="form-text text-muted">
-                    {"We'll never share your email with anyone else."}
-                  </small>
                 </div>
               </div>
 
-              <div className="flex-fill">
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
+              <div className="flex-fill ">
+                <div className="form-group">
+                  <label htmlFor="exampleInputPassword1">Téléphone</label>
                   <input
-                    type="password"
-                    class="form-control"
-                    id="exampleInputPassword1"
-                    placeholder="Password"
+                    type="text"
+                    className="form-control"
+                    id="exampleInputPhone"
+                    placeholder="Saisir le numéro de téléphone"
+                    required
+                    onChange={(e) => setPhone(e.target.value)}
+                    value={phone}
                   />
                 </div>
-                <div class="form-group form-check">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    id="exampleCheck1"
-                  />
-                  <label class="form-check-label" for="exampleCheck1">
-                    Check me out
-                  </label>
+                <div className="form-group mt-2">
+                  <label htmlFor="exampleInputPassword1">Adresse</label>
+                  <textarea
+                    className="form-control"
+                    id="exampleInputAddress"
+                    placeholder="Saisir l'adresse"
+                    required
+                    onChange={(e) => setAddress(e.target.value)}
+                    value={address}
+                  ></textarea>
                 </div>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">
-              Submit
+            <button type="submit" className="btn btn-primary">
+              Enregistrer
             </button>
           </form>
         </Modal.Body>

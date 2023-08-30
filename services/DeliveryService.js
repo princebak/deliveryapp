@@ -88,7 +88,7 @@ export const assignToDriver = async ({ deliveryId, driverId }) => {
   const driver = await DriverModel.findOne({ _id: driverId });
   const delivery = await DeliveryModel.findOne({ _id: deliveryId });
 
-  if (driver && delivery.status === CREATED) {
+  if (driver && (delivery.status === CREATED || delivery.status === PENDING)) {
     await DeliveryModel.findByIdAndUpdate(
       { _id: deliveryId },
       { driver: driverId, status: PENDING }

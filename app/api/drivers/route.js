@@ -18,10 +18,13 @@ export async function POST(request) {
 
   try {
     const driver = await request.json();
+
     const savedDriver = await create(driver);
     return NextResponse.json(savedDriver, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error }, { status: 400 });
+    console.log("creating a driver error >> ", error);
+
+    return NextResponse.json({ error: error }, { status: 400 });
   }
 }
 
