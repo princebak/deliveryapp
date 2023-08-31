@@ -21,10 +21,13 @@ import { HighlightCode } from "widgets";
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
 import { generatePassword } from "utils/passwordGenerator";
+import { Loading } from "utils/constant";
+import DefaultButton from "../components/appButtons/DefaultButton";
 
 const Tables = () => {
-  const [admins, setDeliveries] = useState([]);
+  const [admins, setAdmins] = useState([]);
   const [lgShow, setLgShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,6 +36,7 @@ const Tables = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const password = generatePassword();
     const data = {
       fullName,
@@ -41,7 +45,6 @@ const Tables = () => {
       address,
       password,
     };
-    console.log("Sending >> ", data);
     await axios.post("/api/admins", data, {
       headers: {
         Accept: "application/json",
@@ -50,20 +53,19 @@ const Tables = () => {
     });
     await fetchData();
     setLgShow(false);
+    setLoading(false);
   };
   const fetchData = async () => {
+    setLoading(true);
     const response = await fetch("/api/admins");
     const data = await response.json();
-    console.log("Data >> ", data);
-    setDeliveries(data);
+    setAdmins(data);
+    setLoading(false);
   };
   useEffect(() => {
     fetchData();
   }, []);
 
-  if (!admins) {
-    return <p>Loading...</p>;
-  }
   return (
     <Container fluid className="p-6">
       <Row>
@@ -118,15 +120,17 @@ const Tables = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {admins.map((admin) => (
-                          <tr key={admin._id}>
-                            <th scope="row">{admin.fullName}</th>
-                            <td>{admin.email}</td>
-                            <td>{admin.phone}</td>
-                            <td>{admin.address}</td>
-                            <td>{admin.status}</td>
-                          </tr>
-                        ))}
+                        {loading
+                          ? Loading
+                          : admins.map((admin) => (
+                              <tr key={admin._id}>
+                                <th scope="row">{admin.fullName}</th>
+                                <td>{admin.email}</td>
+                                <td>{admin.phone}</td>
+                                <td>{admin.address}</td>
+                                <td>{admin.status}</td>
+                              </tr>
+                            ))}
                       </tbody>
                     </Table>
                     {/* end of code */}
@@ -151,7 +155,7 @@ const Tables = () => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
-            {"Details d'une Livraison"}
+            {"Ajout d'un admin"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -215,10 +219,12 @@ const Tables = () => {
                 </div>
               </div>
             </div>
-
-            <button type="submit" className="btn btn-primary">
-              Enregistrer
-            </button>
+            <DefaultButton
+              title={"Enregistrer"}
+              type="submit"
+              className="btn btn-primary"
+              loading={loading}
+            />
           </form>
         </Modal.Body>
       </Modal>

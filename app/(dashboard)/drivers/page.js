@@ -21,10 +21,13 @@ import { HighlightCode } from "widgets";
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
 import { generatePassword } from "utils/passwordGenerator";
+import DefaultButton from "../components/appButtons/DefaultButton";
+import { Loading } from "utils/constant";
 
 const Tables = () => {
   const [drivers, setDrivers] = useState([]);
   const [lgShow, setLgShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,6 +36,7 @@ const Tables = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const password = generatePassword();
     const data = {
       fullName,
@@ -41,7 +45,6 @@ const Tables = () => {
       address,
       password,
     };
-    console.log("Sending >> ", data);
     await axios.post("/api/drivers", data, {
       headers: {
         Accept: "application/json",
@@ -50,12 +53,16 @@ const Tables = () => {
     });
     await fetchData();
     setLgShow(false);
+    setLoading(false);
   };
   const fetchData = async () => {
+    setLoading(true);
+
     const response = await fetch("/api/drivers");
     const data = await response.json();
     console.log("Data >> ", data);
     setDrivers(data);
+    setLoading(false);
   };
   useEffect(() => {
     fetchData();
@@ -118,7 +125,7 @@ const Tables = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {drivers.map((driver) => (
+                        {loading ? Loading : drivers.map((driver) => (
                           <tr key={driver._id}>
                             <th scope="row">{driver.fullName}</th>
                             <td>{driver.email}</td>
@@ -216,9 +223,12 @@ const Tables = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary">
-              Enregistrer
-            </button>
+            <DefaultButton
+              title={"Enregistrer"}
+              type="submit"
+              className="btn btn-primary"
+              loading={loading}
+            />
           </form>
         </Modal.Body>
       </Modal>

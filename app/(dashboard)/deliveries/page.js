@@ -22,6 +22,7 @@ import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
 import { ResponsiveMenuAlignmentCode2 } from "data/code/DropdownsCode";
 import { Loading } from "utils/constant";
+import DefaultButton from "../components/appButtons/DefaultButton";
 
 const Tables = () => {
   const [deliveries, setDeliveries] = useState([]);
@@ -233,12 +234,10 @@ const Tables = () => {
                     aria-describedby="driverHelp"
                     className="form-control"
                     onChange={(e) => {
-                      console.log("activeDelivery IN >> ", activeDelivery);
                       setActiveDelivery({
                         ...activeDelivery,
                         driverId: e.target.value,
                       });
-                      console.log("activeDelivery OUT >> ", activeDelivery);
                     }}
                     value={activeDelivery.driverId}
                   >
@@ -252,13 +251,12 @@ const Tables = () => {
               </div>
             </div>
 
-            {loading ? (
-              Loading
-            ) : (
-              <button type="submit" className="btn btn-primary">
-                Enregistrer
-              </button>
-            )}
+            <DefaultButton
+              title={"Enregistrer"}
+              type="submit"
+              className="btn btn-primary"
+              loading={loading}
+            />
           </form>
         </Modal.Body>
       </Modal>
