@@ -23,6 +23,7 @@ import axios from "axios";
 import { generatePassword } from "utils/passwordGenerator";
 import DefaultButton from "../components/appButtons/DefaultButton";
 import { Loading } from "utils/constant";
+import Link from "next/link";
 
 const Tables = () => {
   const [drivers, setDrivers] = useState([]);
@@ -125,15 +126,21 @@ const Tables = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {loading ? Loading : drivers.map((driver) => (
-                          <tr key={driver._id}>
-                            <th scope="row">{driver.fullName}</th>
-                            <td>{driver.email}</td>
-                            <td>{driver.phone}</td>
-                            <td>{driver.address}</td>
-                            <td>{driver.status}</td>
-                          </tr>
-                        ))}
+                        {loading
+                          ? Loading
+                          : drivers.map((driver) => (
+                              <tr key={driver._id}>
+                                <th scope="row">
+                                  <Link href={`/drivers/${driver._id}`}>
+                                    {driver.fullName}
+                                  </Link>
+                                </th>
+                                <td>{driver.email}</td>
+                                <td>{driver.phone}</td>
+                                <td>{driver.address}</td>
+                                <td>{driver.status}</td>
+                              </tr>
+                            ))}
                       </tbody>
                     </Table>
                     {/* end of code */}

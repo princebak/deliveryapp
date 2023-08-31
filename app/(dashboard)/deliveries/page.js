@@ -23,6 +23,7 @@ import axios from "axios";
 import { ResponsiveMenuAlignmentCode2 } from "data/code/DropdownsCode";
 import { Loading } from "utils/constant";
 import DefaultButton from "../components/appButtons/DefaultButton";
+import Link from "next/link";
 
 const Tables = () => {
   const [deliveries, setDeliveries] = useState([]);
@@ -133,7 +134,11 @@ const Tables = () => {
                           ? Loading
                           : deliveries.map((delivery) => (
                               <tr key={delivery.code}>
-                                <th scope="row">{delivery.code}</th>
+                                <th scope="row">
+                                  <Link href={`/deliveries/${delivery._id}`}>
+                                    {delivery.code}
+                                  </Link>
+                                </th>
                                 <td>{delivery.client}</td>
                                 <td>{delivery.driver}</td>
                                 <td>

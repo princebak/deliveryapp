@@ -23,6 +23,7 @@ import axios from "axios";
 import { generatePassword } from "utils/passwordGenerator";
 import { Loading } from "utils/constant";
 import DefaultButton from "../components/appButtons/DefaultButton";
+import Link from "next/link";
 
 const Tables = () => {
   const [admins, setAdmins] = useState([]);
@@ -124,7 +125,11 @@ const Tables = () => {
                           ? Loading
                           : admins.map((admin) => (
                               <tr key={admin._id}>
-                                <th scope="row">{admin.fullName}</th>
+                                <th scope="row">
+                                  <Link href={`/admins/${admin._id}`}>
+                                    {admin.fullName}
+                                  </Link>
+                                </th>
                                 <td>{admin.email}</td>
                                 <td>{admin.phone}</td>
                                 <td>{admin.address}</td>

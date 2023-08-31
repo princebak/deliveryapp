@@ -115,20 +115,21 @@ const QuickMenu = () => {
               </div>
               <div className=" dropdown-divider mt-3 mb-2"></div>
             </Dropdown.Item>
-            <Dropdown.Item eventKey="2">
+            {/* <Dropdown.Item eventKey="2">
               <i className="fe fe-user me-2"></i>
               <Link href="#">My Profile</Link>
             </Dropdown.Item>
+            <Dropdown.Item>
+              <i className="fe fe-settings me-2"></i>
+              <Link href="#">Edit Profile</Link>
+            </Dropdown.Item> */}
             {/* <Dropdown.Item eventKey="3">
               <i className="fe fe-activity me-2"></i> Activity Log
             </Dropdown.Item>
             <Dropdown.Item className="text-primary">
               <i className="fe fe-star me-2"></i> Go Pro
             </Dropdown.Item> */}
-            <Dropdown.Item>
-              <i className="fe fe-settings me-2"></i>
-              <Link href="#">Edit Profile</Link>
-            </Dropdown.Item>
+
             <Dropdown.Item>
               <i className="fe fe-power me-2"></i>
               <Link href="#">Sign Out</Link>

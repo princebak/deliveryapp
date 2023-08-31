@@ -20,6 +20,7 @@ import { HighlightCode } from "widgets";
 // import react code data file
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
+import Link from "next/link";
 
 const Tables = () => {
   const [clients, setDeliveries] = useState([]);
@@ -87,7 +88,11 @@ const Tables = () => {
                       <tbody>
                         {clients.map((client) => (
                           <tr key={client._id}>
-                            <th scope="row">{client.fullName}</th>
+                            <th scope="row">
+                              <Link href={`/clients/${client._id}`}>
+                                {client.fullName}
+                              </Link>
+                            </th>
                             <td>{client.email}</td>
                             <td>{client.phone}</td>
                             <td>{client.address}</td>
