@@ -21,34 +21,43 @@ import { HighlightCode } from "widgets";
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
 import { ResponsiveMenuAlignmentCode2 } from "data/code/DropdownsCode";
+import { Loading } from "utils/constant";
 
 const Tables = () => {
   const [deliveries, setDeliveries] = useState([]);
   const [lgShow, setLgShow] = useState(false);
-  const [activeDelivery, setActiveDelivery] = useState({ id: "", code: "" });
-  const [driverId, setDriverId] = useState("");
+  const [activeDelivery, setActiveDelivery] = useState({
+    id: "",
+    code: "",
+    driverId: "",
+  });
   const [drivers, setDrivers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const assignToDriver = async (e) => {
     e.preventDefault();
-    const response = await axios.put("/api/deliveries/assign_to_driver", {
+    setLoading(true);
+    await axios.put("/api/deliveries/assign_to_driver", {
       deliveryId: activeDelivery.id,
-      driverId,
+      driverId: activeDelivery.driverId,
     });
     await fetchData();
     setLgShow(false);
+    setLoading(false);
   };
 
   const removeFromDriver = async (deliveryId, driverId) => {
-    const response = await axios.put("/api/deliveries/remove_from_driver", {
+    setLoading(true);
+    await axios.put("/api/deliveries/remove_from_driver", {
       deliveryId,
       driverId,
     });
     await fetchData();
-    setLgShow(false);
+    setLoading(false);
   };
 
   const fetchData = async () => {
+    setLoading(true);
     const response = await fetch("/api/deliveries");
     const data = await response.json();
     console.log("Data >> ", data);
@@ -58,6 +67,7 @@ const Tables = () => {
     const data2 = await response2.json();
     console.log("Data2 >> ", data2);
     setDrivers(data2);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -65,7 +75,7 @@ const Tables = () => {
   }, []);
 
   if (!deliveries) {
-    return <p>Loading...</p>;
+    return <p>Chargement...</p>;
   }
 
   console.log("activeDelivery >> " + activeDelivery);
@@ -118,54 +128,65 @@ const Tables = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {deliveries.map((delivery) => (
-                          <tr key={delivery.code}>
-                            <th scope="row">{delivery.code}</th>
-                            <td>{delivery.client}</td>
-                            <td>{delivery.driver}</td>
-                            <td>
-                              {delivery.packs.map(
-                                (pack) => pack.itemsDescription + "; "
-                              )}
-                            </td>
-                            <td>{delivery.status}</td>
-                            <td>
-                              <Button
-                                variant="primary"
-                                className="me-1"
-                                size="sm"
-                                onClick={() => {
-                                  setActiveDelivery({
-                                    id: delivery._id,
-                                    code: delivery.code,
-                                  });
-                                  setLgShow(true);
-                                }}
-                              >
-                                {delivery.status === "created"
-                                  ? "Affecter"
-                                  : "ReAffecter"}
-                              </Button>
-                              {delivery.status === "pending" ? (
-                                <Button
-                                  variant="primary"
-                                  className="me-1"
-                                  size="sm"
-                                  onClick={() => {
-                                    removeFromDriver(
-                                      delivery._id,
-                                      delivery.driver
-                                    );
-                                  }}
-                                >
-                                  Retirer
-                                </Button>
-                              ) : (
-                                ""
-                              )}
-                            </td>
-                          </tr>
-                        ))}
+                        {loading
+                          ? Loading
+                          : deliveries.map((delivery) => (
+                              <tr key={delivery.code}>
+                                <th scope="row">{delivery.code}</th>
+                                <td>{delivery.client}</td>
+                                <td>{delivery.driver}</td>
+                                <td>
+                                  {delivery.packs.map(
+                                    (pack) => pack.itemsDescription + "; "
+                                  )}
+                                </td>
+                                <td>{delivery.status}</td>
+                                <td>
+                                  <Button
+                                    variant="primary"
+                                    className="me-1"
+                                    size="sm"
+                                    onClick={() => {
+                                      setActiveDelivery({
+                                        id: delivery._id,
+                                        code: delivery.code,
+                                        driverId: delivery.driver,
+                                      });
+                                      console.log(
+                                        "Selected activeDelivery",
+                                        activeDelivery
+                                      );
+                                      setLgShow(true);
+                                    }}
+                                  >
+                                    {delivery.status === "created"
+                                      ? "Affecter"
+                                      : "ReAffecter"}
+                                  </Button>
+                                  {delivery.status === "pending" ? (
+                                    !loading ? (
+                                      <Button
+                                        variant="primary"
+                                        className="me-1"
+                                        size="sm"
+                                        onClick={() => {
+                                          removeFromDriver(
+                                            delivery._id,
+                                            delivery.driver
+                                          );
+                                        }}
+                                      >
+                                        Retirer
+                                      </Button>
+                                    ) : (
+                                      Loading
+                                    )
+                                  ) : (
+                                    ""
+                                  )}
+                                </td>
+                              </tr>
+                            ))}
                       </tbody>
                     </Table>
                     {/* end of code */}
@@ -211,8 +232,15 @@ const Tables = () => {
                   <select
                     aria-describedby="driverHelp"
                     className="form-control"
-                    onChange={(e) => setDriverId(e.target.value)}
-                    value={activeDelivery.id}
+                    onChange={(e) => {
+                      console.log("activeDelivery IN >> ", activeDelivery);
+                      setActiveDelivery({
+                        ...activeDelivery,
+                        driverId: e.target.value,
+                      });
+                      console.log("activeDelivery OUT >> ", activeDelivery);
+                    }}
+                    value={activeDelivery.driverId}
                   >
                     {drivers.map((driver) => (
                       <option key={driver._id} value={driver._id}>
@@ -224,9 +252,13 @@ const Tables = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary">
-              Enregistrer
-            </button>
+            {loading ? (
+              Loading
+            ) : (
+              <button type="submit" className="btn btn-primary">
+                Enregistrer
+              </button>
+            )}
           </form>
         </Modal.Body>
       </Modal>
