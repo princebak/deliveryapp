@@ -8,6 +8,9 @@ import { DRIVER } from "utils/userType";
 export const create = async (driver) => {
   console.log("creating driver >> ", driver);
   // create driver on the database
+  if (!driver.password) {
+    return { msg: "the password is mandatory." };
+  }
   await dbConnector();
   const driverModel = new DriverModel(driver);
   const savedDriver = await driverModel.save();
@@ -15,13 +18,13 @@ export const create = async (driver) => {
   if (savedDriver) {
     const user = {
       username: savedDriver.phone,
-      password: generatePassword(),
+      password: await hash(driver.password, 10),
       type: DRIVER,
     };
     const userModel = new UserModel(user);
     await userModel.save();
   }
-return savedDriver;
+  return savedDriver;
 };
 
 export const findAll = async () => {

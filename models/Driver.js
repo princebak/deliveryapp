@@ -16,6 +16,7 @@ const DriverSchema = new Schema(
     phone: {
       type: String,
       required: [true, "Driver phone is required !"],
+      unique: true,
     },
     address: {
       type: String,
@@ -32,6 +33,12 @@ const DriverSchema = new Schema(
     },
     location: {
       type: { latitude: Number, longitude: Number },
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 5,
+      select: false,
     },
   },
   { timestamps: true }

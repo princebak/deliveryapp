@@ -8,6 +8,9 @@ import { CLIENT } from "utils/userType";
 export const create = async (client) => {
   console.log("creating client >> ", client);
   // create client on the database
+  if (!client.password) {
+    return { msg: "the password is mandatory." };
+  }
   await dbConnector();
   const clientModel = new ClientModel(client);
   const savedClient = await clientModel.save();
@@ -15,7 +18,7 @@ export const create = async (client) => {
   if (savedClient) {
     const user = {
       username: savedClient.phone,
-      password: generatePassword(),
+      password: await hash(client.password, 10),
       type: CLIENT,
     };
     const userModel = new UserModel(user);

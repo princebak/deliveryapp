@@ -16,6 +16,7 @@ const ClientSchema = new Schema(
     phone: {
       type: String,
       required: [true, "Client phone is required !"],
+      unique: true,
     },
     address: {
       type: String,
@@ -29,6 +30,12 @@ const ClientSchema = new Schema(
     status: {
       type: String,
       default: "" + ACTIVE,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 5,
+      select: false,
     },
   },
   { timestamps: true }

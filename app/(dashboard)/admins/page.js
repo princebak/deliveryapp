@@ -34,11 +34,11 @@ const Tables = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const password = generatePassword();
     const data = {
       fullName,
       email,
@@ -194,6 +194,19 @@ const Tables = () => {
                     required
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
+                  />
+                </div>
+                <div className="form-group mt-2">
+                  <label htmlFor="exampleInputPassword">Mot de passe</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="exampleInputPassword"
+                    aria-describedby="passwordHelp"
+                    placeholder="Saisir le mot de passe"
+                    required
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
                   />
                 </div>
               </div>

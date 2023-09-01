@@ -9,15 +9,18 @@ import { ADMIN } from "utils/userType";
 export const create = async (admin) => {
   console.log("creating admin >> ", admin);
   // create admin on the database
+  if (!admin.password) {
+    return { msg: "the password is mandatory." };
+  }
   await dbConnector();
   const adminModel = new AdminModel(admin);
   const createdAdmin = await adminModel.save();
+
   if (createdAdmin) {
-    const pass = generatePassword();
     console.log("Pass >> ", pass);
     const user = {
       username: createdAdmin.phone,
-      password: await hash(pass, 10),
+      password: await hash(admin.password, 10),
       type: ADMIN,
     };
     const userModel = new UserModel(user);
