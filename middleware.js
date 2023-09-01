@@ -21,12 +21,11 @@ export function middleware(request) {
     method: request.method,
     url: request.url,
     date: new Date(),
-    // add body
   });
 
   return response;
 }
 
 export const config = {
-    matcher: '/api/:path*'
-}
+  matcher: "/api/:path*",
+};

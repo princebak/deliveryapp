@@ -1,13 +1,28 @@
 import ClientModel from "models/Client";
+import UserModel from "models/User";
 import { dbConnector } from "utils/dbConnector";
+import { generatePassword } from "utils/passwordGenerator";
 import { ACTIVE, REMOVED } from "utils/status";
+import { CLIENT } from "utils/userType";
 
 export const create = async (client) => {
   console.log("creating client >> ", client);
   // create client on the database
   await dbConnector();
   const clientModel = new ClientModel(client);
-  return await clientModel.save();
+  const savedClient = await clientModel.save();
+
+  if (savedClient) {
+    const user = {
+      username: savedClient.phone,
+      password: generatePassword(),
+      type: CLIENT,
+    };
+    const userModel = new UserModel(user);
+    await userModel.save();
+  }
+
+  return savedClient;
 };
 
 export const findAll = async () => {

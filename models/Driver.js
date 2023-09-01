@@ -26,12 +26,6 @@ const DriverSchema = new Schema(
       required: true,
       default: "" + DRIVER,
     },
-    password: {
-      type: String,
-      required: true,
-      minlength: 5,
-      select: false,
-    },
     status: {
       type: String,
       default: "" + ACTIVE,

@@ -26,12 +26,6 @@ const ClientSchema = new Schema(
       required: true,
       default: "" + CLIENT,
     },
-    password: {
-      type: String,
-      required: true,
-      minlength: 5,
-      select: false,
-    },
     status: {
       type: String,
       default: "" + ACTIVE,

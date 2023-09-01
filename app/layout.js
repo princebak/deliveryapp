@@ -1,4 +1,5 @@
 // import theme style scss file
+import Providers from "components/Providers";
 import "styles/theme.scss";
 
 export const metadata = {
@@ -11,7 +12,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-light">{children}</body>
+      <body className="bg-light">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
+ 

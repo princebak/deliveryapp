@@ -1,13 +1,33 @@
+import { hash } from "bcrypt";
 import AdminModel from "models/Admin";
+import UserModel from "models/User";
 import { dbConnector } from "utils/dbConnector";
+import { generatePassword } from "utils/passwordGenerator";
 import { ACTIVE, BLOCKED, REMOVED } from "utils/status";
+import { ADMIN } from "utils/userType";
 
 export const create = async (admin) => {
   console.log("creating admin >> ", admin);
   // create admin on the database
   await dbConnector();
   const adminModel = new AdminModel(admin);
-  return await adminModel.save();
+  const createdAdmin = await adminModel.save();
+  if (createdAdmin) {
+    const pass = generatePassword();
+    console.log("Pass >> ", pass);
+    const user = {
+      username: createdAdmin.phone,
+      password: await hash(pass, 10),
+      type: ADMIN,
+    };
+    const userModel = new UserModel(user);
+    const savedCredentials = await userModel.save();
+
+    console.log("savedCredentials >> ", savedCredentials);
+    // TODO : Notify Admin its credentials
+  }
+
+  return createdAdmin;
 };
 
 export const findAll = async () => {

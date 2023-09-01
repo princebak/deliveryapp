@@ -25,12 +25,6 @@ const AdminSchema = new Schema(
       required: true,
       default: "" + ADMIN,
     },
-    password: {
-      type: String,
-      required: true,
-      minlength: 5,
-      select: false,
-    },
     status: {
       type: String,
       default: "" + ACTIVE,

@@ -1,3 +1,4 @@
+"use client";
 // import node module libraries
 import Link from "next/link";
 import { Fragment } from "react";
@@ -13,6 +14,7 @@ import NotificationList from "data/Notification";
 
 // import hooks
 import useMounted from "hooks/useMounted";
+import { signOut, useSession } from "next-auth/react";
 
 const QuickMenu = () => {
   const hasMounted = useMounted();
@@ -20,6 +22,9 @@ const QuickMenu = () => {
   const isDesktop = useMediaQuery({
     query: "(min-width: 1224px)",
   });
+  const { data: session } = useSession();
+
+  console.log("Session in Menu >> ", session);
 
   const Notifications = () => {
     return (
@@ -47,7 +52,7 @@ const QuickMenu = () => {
     );
   };
 
-  const QuickMenuDesktop = () => {
+  const QuickMenuDesktop = ({ session, signOut }) => {
     return (
       <ListGroup
         as="ul"
@@ -108,13 +113,21 @@ const QuickMenu = () => {
           >
             <Dropdown.Item as="div" className="px-4 pb-0 pt-2" bsPrefix=" ">
               <div className="lh-1 ">
-                <h5 className="mb-1"> Prince Ilunga</h5>
+                <h5 className="mb-1">{session?.user[0].fullName}</h5>
                 <Link href="#" className="text-inherit fs-6">
-                  Super Admin
+                  {session?.user[0].type}
                 </Link>
               </div>
               <div className=" dropdown-divider mt-3 mb-2"></div>
             </Dropdown.Item>
+
+            <Dropdown.Item>
+              <i className="fe fe-power me-2"></i>
+              <Link href="#" onClick={() => signOut()}>
+                Sign Out
+              </Link>
+            </Dropdown.Item>
+
             {/* <Dropdown.Item eventKey="2">
               <i className="fe fe-user me-2"></i>
               <Link href="#">My Profile</Link>
@@ -129,59 +142,21 @@ const QuickMenu = () => {
             <Dropdown.Item className="text-primary">
               <i className="fe fe-star me-2"></i> Go Pro
             </Dropdown.Item> */}
-
-            <Dropdown.Item>
-              <i className="fe fe-power me-2"></i>
-              <Link href="#">Sign Out</Link>
-            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </ListGroup>
     );
   };
 
-  const QuickMenuMobile = () => {
+  const QuickMenuMobile = ({ session, signOut }) => {
+    console.log("Session in QuickMenuMobile >> ", session);
+
     return (
       <ListGroup
         as="ul"
         bsPrefix="navbar-nav"
         className="navbar-right-wrap ms-auto d-flex nav-top-wrap"
       >
-        <Dropdown as="li" className="stopevent">
-          <Dropdown.Toggle
-            as="a"
-            bsPrefix=" "
-            id="dropdownNotification"
-            className="btn btn-light btn-icon rounded-circle indicator indicator-primary text-muted"
-          >
-            <i className="fe fe-bell"></i>
-          </Dropdown.Toggle>
-          <Dropdown.Menu
-            className="dashboard-dropdown notifications-dropdown dropdown-menu-lg dropdown-menu-end py-0"
-            aria-labelledby="dropdownNotification"
-            align="end"
-          >
-            <Dropdown.Item className="mt-3" bsPrefix=" " as="div">
-              <div className="border-bottom px-3 pt-0 pb-3 d-flex justify-content-between align-items-end">
-                <span className="h4 mb-0">Notifications</span>
-                <Link href="/" className="text-muted">
-                  <span className="align-middle">
-                    <i className="fe fe-settings me-1"></i>
-                  </span>
-                </Link>
-              </div>
-              <Notifications />
-              <div className="border-top px-3 pt-3 pb-3">
-                <Link
-                  href="/dashboard/notification-history"
-                  className="text-link fw-semi-bold"
-                >
-                  See all Notifications
-                </Link>
-              </div>
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
         <Dropdown as="li" className="ms-2">
           <Dropdown.Toggle
             as="a"
@@ -204,27 +179,19 @@ const QuickMenu = () => {
           >
             <Dropdown.Item as="div" className="px-4 pb-0 pt-2" bsPrefix=" ">
               <div className="lh-1 ">
-                <h5 className="mb-1"> John E. Grainger</h5>
+                <h5 className="mb-1">{session?.user[0].fullName}</h5>
                 <Link href="#" className="text-inherit fs-6">
-                  View my profile
+                  {session?.user[0].type}
                 </Link>
               </div>
               <div className=" dropdown-divider mt-3 mb-2"></div>
             </Dropdown.Item>
-            <Dropdown.Item eventKey="2">
-              <i className="fe fe-user me-2"></i> Edit Profile
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="3">
-              <i className="fe fe-activity me-2"></i> Activity Log
-            </Dropdown.Item>
-            <Dropdown.Item className="text-primary">
-              <i className="fe fe-star me-2"></i> Go Pro
-            </Dropdown.Item>
+
             <Dropdown.Item>
-              <i className="fe fe-settings me-2"></i> Account Settings
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <i className="fe fe-power me-2"></i>Sign Out
+              <i className="fe fe-power me-2"></i>
+              <Link href="#" onClick={() => signOut()}>
+                Sign Out
+              </Link>
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -234,7 +201,11 @@ const QuickMenu = () => {
 
   return (
     <Fragment>
-      {hasMounted && isDesktop ? <QuickMenuDesktop /> : <QuickMenuMobile />}
+      {hasMounted && isDesktop ? (
+        <QuickMenuDesktop session={session} signOut={signOut} />
+      ) : (
+        <QuickMenuMobile session={session} signOut={signOut} />
+      )}
     </Fragment>
   );
 };

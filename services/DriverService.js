@@ -1,13 +1,27 @@
 import DriverModel from "models/Driver";
+import UserModel from "models/User";
 import { dbConnector } from "utils/dbConnector";
+import { generatePassword } from "utils/passwordGenerator";
 import { ACTIVE, BLOCKED, REMOVED } from "utils/status";
+import { DRIVER } from "utils/userType";
 
 export const create = async (driver) => {
   console.log("creating driver >> ", driver);
   // create driver on the database
   await dbConnector();
   const driverModel = new DriverModel(driver);
-  return await driverModel.save();
+  const savedDriver = await driverModel.save();
+
+  if (savedDriver) {
+    const user = {
+      username: savedDriver.phone,
+      password: generatePassword(),
+      type: DRIVER,
+    };
+    const userModel = new UserModel(user);
+    await userModel.save();
+  }
+return savedDriver;
 };
 
 export const findAll = async () => {
