@@ -21,6 +21,7 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const loginForm = {
       username: phone,
       password: password,
@@ -33,6 +34,7 @@ const SignIn = () => {
     res.error
       ? console.log("Connection Error >> ", res.error)
       : router.push("/");
+    setLoading(false);
   };
 
   return (
@@ -53,7 +55,6 @@ const SignIn = () => {
             {hasMounted && (
               <Form
                 onSubmit={(e) => {
-                  setLoading(true);
                   handleSubmit(e);
                 }}
               >
