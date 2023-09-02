@@ -17,7 +17,6 @@ export const create = async (admin) => {
   const createdAdmin = await adminModel.save();
 
   if (createdAdmin) {
-    console.log("Pass >> ", pass);
     const user = {
       username: createdAdmin.phone,
       password: await hash(admin.password, 10),
