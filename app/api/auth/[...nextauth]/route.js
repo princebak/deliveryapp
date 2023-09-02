@@ -1,7 +1,4 @@
-import AdminModel from "models/Admin";
-import ClientModel from "models/Client";
-import DriverModel from "models/Driver";
-import UserModel from "models/User";
+
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
