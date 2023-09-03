@@ -20,16 +20,19 @@ const handler = NextAuth({
         console.log("credentials >> ", credentials);
         let user = undefined;
 
-        const response = await fetch("http://localhost:3000/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: credentials?.username,
-            password: credentials?.password,
-          }),
-        });
+        const response = await fetch(
+          "https://deliveryapp-three.vercel.app/api/auth/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: credentials?.username,
+              password: credentials?.password,
+            }),
+          }
+        );
         user = await response.json();
         console.log("User >> ", user);
         if (user) {
