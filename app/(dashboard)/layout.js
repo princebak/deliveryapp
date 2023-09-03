@@ -10,6 +10,8 @@ import NavbarVertical from "/layouts/navbars/NavbarVertical";
 import NavbarTop from "/layouts/navbars/NavbarTop";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import AuthLayout from "app/(auth)/authentication/layout";
+import SignIn from "app/(auth)/authentication/sign-in/page";
 
 export default function DashboardLayout({ children }) {
   const [showMenu, setShowMenu] = useState(true);
@@ -17,7 +19,6 @@ export default function DashboardLayout({ children }) {
     return setShowMenu(!showMenu);
   };
   const { data: session } = useSession();
-  const router = useRouter();
   if (session && session.user) {
     return (
       <div id="db-wrapper" className={`${showMenu ? "" : "toggled"}`}>
@@ -41,6 +42,12 @@ export default function DashboardLayout({ children }) {
       </div>
     );
   } else {
-    router.push("/authentication/sign-in");
+    return (
+      <>
+      <AuthLayout>
+        <SignIn/>
+      </AuthLayout>
+      </>
+    )
   }
 }
