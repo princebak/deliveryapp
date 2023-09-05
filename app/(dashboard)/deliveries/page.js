@@ -76,10 +76,6 @@ const Tables = () => {
     fetchData();
   }, []);
 
-  if (!deliveries) {
-    return <p>Chargement...</p>;
-  }
-
   console.log("activeDelivery >> " + activeDelivery);
   return (
     <Container fluid className="p-6">
@@ -136,7 +132,7 @@ const Tables = () => {
                           {deliveries.map((delivery) => (
                             <tr key={delivery.code}>
                               <th scope="row">
-                                <Link href={`/deliveries/${delivery._id}`}>
+                                <Link href={`/deliveries/${delivery.code}`}>
                                   {delivery.code}
                                 </Link>
                               </th>

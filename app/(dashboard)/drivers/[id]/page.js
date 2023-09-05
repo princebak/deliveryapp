@@ -20,8 +20,8 @@ import { HighlightCode } from "widgets";
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
 import { ResponsiveMenuAlignmentCode2 } from "data/code/DropdownsCode";
-import { Loading } from "utils/constant";
 import Link from "next/link";
+import Loader from "components/Loader";
 
 const Details = ({ params: { id } }) => {
   const [data, setData] = useState({
@@ -119,7 +119,7 @@ const Details = ({ params: { id } }) => {
                     </div>
                   </div>
                 ) : (
-                  Loading
+                  <Loader />
                 )}
               </Card.Body>
             </Card>

@@ -1,6 +1,6 @@
 "use client";
 // import node module libraries
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import { Container, Col, Row } from "react-bootstrap";
 
@@ -14,6 +14,22 @@ import { ActiveProjects, Teams, TasksPerformance } from "sub-components";
 import ProjectsStatsData from "data/dashboard/ProjectsStatsData";
 
 const Home = () => {
+  const [statistics, setStatistics] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    setLoading(true);
+    const response = await fetch("/api/deliveries/stats");
+    const data = await response.json();
+    console.log("Data >> ", data);
+    setStatistics(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Fragment>
       <div className="bg-primary pt-10 pb-21"></div>
@@ -28,13 +44,38 @@ const Home = () => {
                 </div>
                 <div>
                   <Link href="#" className="btn btn-white">
-                    Voir les livraisons non affectées<span>(50)</span>
+                    Livraisons non affectées
+                    <span>({statistics?.created})</span>
                   </Link>
                 </div>
               </div>
             </div>
           </Col>
           {ProjectsStatsData.map((item, index) => {
+            if (statistics != null) {
+              switch (item.id) {
+                case 1:
+                  item.value =
+                    statistics?.created +
+                    statistics?.delivered +
+                    statistics?.on_the_way +
+                    statistics?.pending;
+                  break;
+                case 2:
+                  item.value = statistics?.delivered;
+                  break;
+                case 3:
+                  item.value = statistics?.on_the_way;
+                  break;
+                case 4:
+                  item.value = statistics?.pending;
+                  break;
+
+                default:
+                  break;
+              }
+            }
+
             return (
               <Col xl={3} lg={6} md={12} xs={12} className="mt-6" key={index}>
                 <StatRightTopIcon info={item} />
@@ -44,19 +85,18 @@ const Home = () => {
         </Row>
 
         {/* Active Projects  */}
-        <ActiveProjects />
+        <ActiveProjects deliveries={statistics?.last7} />
 
-        <Row className="my-6">
+        <Row className="my-6"></Row>
+
+        {/*  <Row className="my-6">
           <Col xl={4} lg={12} md={12} xs={12} className="mb-6 mb-xl-0">
-            {/* Tasks Performance  */}
             <TasksPerformance />
           </Col>
-          {/* card  */}
           <Col xl={8} lg={12} md={12} xs={12}>
-            {/* Teams  */}
             <Teams />
           </Col>
-        </Row>
+        </Row> */}
       </Container>
     </Fragment>
   );

@@ -20,8 +20,8 @@ import { HighlightCode } from "widgets";
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
 import { ResponsiveMenuAlignmentCode2 } from "data/code/DropdownsCode";
-import { Loading } from "utils/constant";
 import Link from "next/link";
+import Loader from "components/Loader";
 
 const Details = ({ params: { id } }) => {
   const [data, setData] = useState({
@@ -124,7 +124,7 @@ const Details = ({ params: { id } }) => {
                     </div>
                   </div>
                 ) : (
-                  Loading
+                  <Loader />
                 )}
               </Card.Body>
             </Card>
@@ -174,7 +174,7 @@ const Details = ({ params: { id } }) => {
                     </div>
                   </div>
                 ) : (
-                  Loading
+                  <Loader />
                 )}
               </Card.Body>
             </Card>
@@ -218,18 +218,20 @@ const Details = ({ params: { id } }) => {
                           </tr>
                         </thead>
                         <tbody>
-                          {loading
-                            ? Loading
-                            : data.delivery.packs.map((pack) => (
-                                <tr key={pack._id}>
-                                  <td>{pack.itemsDescription}</td>
-                                  <td>{pack.beneficiaryName}</td>
-                                  <td>{pack.beneficiaryPhone}</td>
-                                  <td>{pack.beneficiaryAddress}</td>
-                                  <td>{pack.beneficiaryEmail}</td>
-                                  <td>{pack.status}</td>
-                                </tr>
-                              ))}
+                          {loading ? (
+                            <Loader />
+                          ) : (
+                            data.delivery.packs.map((pack) => (
+                              <tr key={pack._id}>
+                                <td>{pack.itemsDescription}</td>
+                                <td>{pack.beneficiaryName}</td>
+                                <td>{pack.beneficiaryPhone}</td>
+                                <td>{pack.beneficiaryAddress}</td>
+                                <td>{pack.beneficiaryEmail}</td>
+                                <td>{pack.status}</td>
+                              </tr>
+                            ))
+                          )}
                         </tbody>
                       </Table>
                       {/* end of code */}
@@ -239,7 +241,7 @@ const Details = ({ params: { id } }) => {
                     </Tab.Pane>
                   </Tab.Content>
                 ) : (
-                  Loading
+                  <Loader />
                 )}
               </Card.Body>
             </Card>

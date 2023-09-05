@@ -1,3 +1,5 @@
+"use client";
+
 // import node module libraries
 import { Menu } from "react-feather";
 import Link from "next/link";
@@ -5,8 +7,17 @@ import { Nav, Navbar, Form } from "react-bootstrap";
 
 // import sub components
 import QuickMenu from "layouts/QuickMenu";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const NavbarTop = (props) => {
+  const [deliveryCode, setDeliveryCode] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    router.push(`/deliveries/${deliveryCode}`);
+  };
   return (
     <Navbar expanded="lg" className="navbar-classic navbar navbar-expand-lg">
       <div className="d-flex justify-content-between w-100">
@@ -21,10 +32,16 @@ const NavbarTop = (props) => {
           </Link>
           <div className="ms-lg-3 d-none d-md-none d-lg-block">
             {/* Search Form */}
-            <Form className="d-flex align-items-center">
+            <Form
+              className="d-flex align-items-center"
+              onSubmit={(e) => handleSubmit(e)}
+            >
               <Form.Control
                 type="search"
-                placeholder="Trouver une livraison par code"
+                placeholder="Code de la livraison"
+                value={deliveryCode}
+                onChange={(e) => setDeliveryCode(e.target.value)}
+                required
               />
             </Form>
           </div>

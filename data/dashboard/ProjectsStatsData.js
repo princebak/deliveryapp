@@ -4,30 +4,30 @@ export const ProjectsStats = [
   {
     id: 1,
     title: "Toutes les Livraisons",
-    value: 132,
+    value: "...",
     icon: <Briefcase size={18} />,
-    statInfo: '<span className="text-dark me-2"></span> Voir',
+    statInfo: '<span className="text-dark me-2"></span> Total',
   },
   {
     id: 2,
     title: "Livraisons Finies",
-    value: 32,
+    value: "...",
     icon: <ListTask size={18} />,
-    statInfo: '<span className="text-dark me-2"></span> Voir',
+    statInfo: '<span className="text-dark me-2"></span> Total',
   },
   {
     id: 3,
     title: "Livraisons en cours",
-    value: 30,
+    value: "...",
     icon: <People size={18} />,
-    statInfo: '<span className="text-dark me-2"></span> Voir',
+    statInfo: '<span className="text-dark me-2"></span> Total',
   },
   {
     id: 4,
     title: "Livraisons en attente",
-    value: 20,
+    value: "...",
     icon: <Bullseye size={18} />,
-    statInfo: '<span className="text-dark me-2"></span> Voir',
+    statInfo: '<span className="text-dark me-2"></span> Total',
   },
 ];
 export default ProjectsStats;

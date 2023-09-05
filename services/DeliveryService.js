@@ -37,11 +37,12 @@ export const findAll = async () => {
 };
 
 export const findById = async (id) => {
+  // code not id
   // find delivery by id from database
   console.log("finding delivery by id >> ", id);
   await dbConnector();
   const delivery = await DeliveryModel.findOne({
-    _id: id,
+    code: id,
     status: { $not: { $eq: REMOVED } },
   }); //.populate("client", "driver");
   console.log("Found delivery >> ", delivery);
@@ -198,4 +199,51 @@ export const deliver = async (validationCode) => {
       status: 400,
     };
   }
+};
+
+export const findStatisticsByStatus = async () => {
+  // find deliveries from database
+  console.log("finding all deliveries");
+  await dbConnector();
+
+  const deliveries = await DeliveryModel.find({
+    status: { $not: { $eq: REMOVED } },
+  }); //.populate(["client", "driver"]);
+
+  const statistics = {
+    created: 0,
+    delivered: 0,
+    on_the_way: 0,
+    pending: 0,
+    last7: [],
+  };
+  deliveries.map((delivery) => {
+    switch (delivery.status) {
+      case CREATED:
+        statistics.created = statistics.created + 1;
+        break;
+      case DELIVERED:
+        statistics.delivered = statistics.delivered + 1;
+        break;
+      case ON_THE_WAY:
+        statistics.on_the_way = statistics.on_the_way + 1;
+        break;
+      case PENDING:
+        statistics.pending = statistics.pending + 1;
+        break;
+
+      default:
+        break;
+    }
+  });
+
+  deliveries.sort(function (a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  var lastSevenItems = deliveries.slice(0, 7);
+
+  statistics.last7 = lastSevenItems;
+
+  return statistics;
 };
