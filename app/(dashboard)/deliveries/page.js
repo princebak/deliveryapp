@@ -21,9 +21,9 @@ import { HighlightCode } from "widgets";
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
 import { ResponsiveMenuAlignmentCode2 } from "data/code/DropdownsCode";
-import { Loading } from "utils/constant";
 import DefaultButton from "../components/appButtons/DefaultButton";
 import Link from "next/link";
+import Loader from "components/Loader";
 
 const Tables = () => {
   const [deliveries, setDeliveries] = useState([]);
@@ -129,71 +129,73 @@ const Tables = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
-                        {loading
-                          ? Loading
-                          : deliveries.map((delivery) => (
-                              <tr key={delivery.code}>
-                                <th scope="row">
-                                  <Link href={`/deliveries/${delivery._id}`}>
-                                    {delivery.code}
-                                  </Link>
-                                </th>
-                                <td>{delivery.client}</td>
-                                <td>{delivery.driver}</td>
-                                <td>
-                                  {delivery.packs.map(
-                                    (pack) => pack.itemsDescription + "; "
-                                  )}
-                                </td>
-                                <td>{delivery.status}</td>
-                                <td>
-                                  <Button
-                                    variant="primary"
-                                    className="me-1"
-                                    size="sm"
-                                    onClick={() => {
-                                      setActiveDelivery({
-                                        id: delivery._id,
-                                        code: delivery.code,
-                                        driverId: delivery.driver,
-                                      });
-                                      console.log(
-                                        "Selected activeDelivery",
-                                        activeDelivery
-                                      );
-                                      setLgShow(true);
-                                    }}
-                                  >
-                                    {delivery.status === "created"
-                                      ? "Affecter"
-                                      : "ReAffecter"}
-                                  </Button>
-                                  {delivery.status === "pending" ? (
-                                    !loading ? (
-                                      <Button
-                                        variant="primary"
-                                        className="me-1"
-                                        size="sm"
-                                        onClick={() => {
-                                          removeFromDriver(
-                                            delivery._id,
-                                            delivery.driver
-                                          );
-                                        }}
-                                      >
-                                        Retirer
-                                      </Button>
-                                    ) : (
-                                      Loading
-                                    )
+                      {loading ? (
+                        <Loader />
+                      ) : (
+                        <tbody>
+                          {deliveries.map((delivery) => (
+                            <tr key={delivery.code}>
+                              <th scope="row">
+                                <Link href={`/deliveries/${delivery._id}`}>
+                                  {delivery.code}
+                                </Link>
+                              </th>
+                              <td>{delivery.client}</td>
+                              <td>{delivery.driver}</td>
+                              <td>
+                                {delivery.packs.map(
+                                  (pack) => pack.itemsDescription + "; "
+                                )}
+                              </td>
+                              <td>{delivery.status}</td>
+                              <td>
+                                <Button
+                                  variant="primary"
+                                  className="me-1"
+                                  size="sm"
+                                  onClick={() => {
+                                    setActiveDelivery({
+                                      id: delivery._id,
+                                      code: delivery.code,
+                                      driverId: delivery.driver,
+                                    });
+                                    console.log(
+                                      "Selected activeDelivery",
+                                      activeDelivery
+                                    );
+                                    setLgShow(true);
+                                  }}
+                                >
+                                  {delivery.status === "created"
+                                    ? "Affecter"
+                                    : "ReAffecter"}
+                                </Button>
+                                {delivery.status === "pending" ? (
+                                  !loading ? (
+                                    <Button
+                                      variant="primary"
+                                      className="me-1"
+                                      size="sm"
+                                      onClick={() => {
+                                        removeFromDriver(
+                                          delivery._id,
+                                          delivery.driver
+                                        );
+                                      }}
+                                    >
+                                      Retirer
+                                    </Button>
                                   ) : (
-                                    ""
-                                  )}
-                                </td>
-                              </tr>
-                            ))}
-                      </tbody>
+                                    <Loader />
+                                  )
+                                ) : (
+                                  ""
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      )}
                     </Table>
                     {/* end of code */}
                   </Tab.Pane>

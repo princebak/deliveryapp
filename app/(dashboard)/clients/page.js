@@ -19,14 +19,16 @@ import { HighlightCode } from "widgets";
 
 // import react code data file
 import { StripedTableCode } from "data/code/TablesCode";
-import axios from "axios";
 import Link from "next/link";
+import Loader from "components/Loader";
 
 const Tables = () => {
   const [clients, setDeliveries] = useState([]);
   const [lgShow, setLgShow] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     console.log("In useEffect");
     const fetchData = async () => {
       const response = await fetch("/api/clients");
@@ -35,11 +37,9 @@ const Tables = () => {
       setDeliveries(data);
     };
     fetchData();
+    setLoading(false);
   }, []);
 
-  if (!clients) {
-    return <p>Loading...</p>;
-  }
   return (
     <Container fluid className="p-6">
       <Row>
@@ -85,21 +85,25 @@ const Tables = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
-                        {clients.map((client) => (
-                          <tr key={client._id}>
-                            <th scope="row">
-                              <Link href={`/clients/${client._id}`}>
-                                {client.fullName}
-                              </Link>
-                            </th>
-                            <td>{client.email}</td>
-                            <td>{client.phone}</td>
-                            <td>{client.address}</td>
-                            <td>{client.status}</td>
-                          </tr>
-                        ))}
-                      </tbody>
+                      {loading ? (
+                        <Loader />
+                      ) : (
+                        <tbody>
+                          {clients.map((client) => (
+                            <tr key={client._id}>
+                              <th scope="row">
+                                <Link href={`/clients/${client._id}`}>
+                                  {client.fullName}
+                                </Link>
+                              </th>
+                              <td>{client.email}</td>
+                              <td>{client.phone}</td>
+                              <td>{client.address}</td>
+                              <td>{client.status}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      )}
                     </Table>
                     {/* end of code */}
                   </Tab.Pane>

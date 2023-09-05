@@ -9,7 +9,7 @@ import useMounted from "hooks/useMounted";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { Loading } from "utils/constant";
+import Loader from "components/Loader";
 
 const SignIn = () => {
   const [phone, setPhone] = useState("0828414084");
@@ -93,7 +93,7 @@ const SignIn = () => {
                   {/* Button */}
                   <div className="d-grid">
                     {loading ? (
-                      Loading
+                      <Loader />
                     ) : (
                       <Button variant="primary" type="submit">
                         Sign In

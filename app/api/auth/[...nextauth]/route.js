@@ -1,4 +1,3 @@
-
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -21,7 +20,7 @@ const handler = NextAuth({
         let user = undefined;
 
         const response = await fetch(
-          "https://deliveryapp-three.vercel.app/api/auth/login",
+          "http://localhost:3000/api/auth/login", //"https://deliveryapp-three.vercel.app/api/auth/login",
           {
             method: "POST",
             headers: {

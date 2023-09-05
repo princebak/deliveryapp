@@ -22,8 +22,8 @@ import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
 import { generatePassword } from "utils/passwordGenerator";
 import DefaultButton from "../components/appButtons/DefaultButton";
-import { Loading } from "utils/constant";
 import Link from "next/link";
+import Loader from "components/Loader";
 
 const Tables = () => {
   const [drivers, setDrivers] = useState([]);
@@ -69,9 +69,6 @@ const Tables = () => {
     fetchData();
   }, []);
 
-  if (!drivers) {
-    return <p>Loading...</p>;
-  }
   return (
     <Container fluid className="p-6">
       <Row>
@@ -125,23 +122,25 @@ const Tables = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
-                        {loading
-                          ? Loading
-                          : drivers.map((driver) => (
-                              <tr key={driver._id}>
-                                <th scope="row">
-                                  <Link href={`/drivers/${driver._id}`}>
-                                    {driver.fullName}
-                                  </Link>
-                                </th>
-                                <td>{driver.email}</td>
-                                <td>{driver.phone}</td>
-                                <td>{driver.address}</td>
-                                <td>{driver.status}</td>
-                              </tr>
-                            ))}
-                      </tbody>
+                      {loading ? (
+                        <Loader />
+                      ) : (
+                        <tbody>
+                          {drivers.map((driver) => (
+                            <tr key={driver._id}>
+                              <th scope="row">
+                                <Link href={`/drivers/${driver._id}`}>
+                                  {driver.fullName}
+                                </Link>
+                              </th>
+                              <td>{driver.email}</td>
+                              <td>{driver.phone}</td>
+                              <td>{driver.address}</td>
+                              <td>{driver.status}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      )}
                     </Table>
                     {/* end of code */}
                   </Tab.Pane>

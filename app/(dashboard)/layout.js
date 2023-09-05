@@ -15,11 +15,12 @@ import SignIn from "app/(auth)/authentication/sign-in/page";
 
 export default function DashboardLayout({ children }) {
   const [showMenu, setShowMenu] = useState(true);
+  const router = useRouter();
   const ToggleMenu = () => {
     return setShowMenu(!showMenu);
   };
   const { data: session } = useSession();
-  if (session && session.user) {
+  if (session && router.pathname !== "/login") {
     return (
       <div id="db-wrapper" className={`${showMenu ? "" : "toggled"}`}>
         <div className="navbar-vertical navbar">
@@ -44,10 +45,10 @@ export default function DashboardLayout({ children }) {
   } else {
     return (
       <>
-      <AuthLayout>
-        <SignIn/>
-      </AuthLayout>
+        <AuthLayout>
+          <SignIn />
+        </AuthLayout>
       </>
-    )
+    );
   }
 }

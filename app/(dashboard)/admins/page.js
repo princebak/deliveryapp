@@ -20,10 +20,9 @@ import { HighlightCode } from "widgets";
 // import react code data file
 import { StripedTableCode } from "data/code/TablesCode";
 import axios from "axios";
-import { generatePassword } from "utils/passwordGenerator";
-import { Loading } from "utils/constant";
 import DefaultButton from "../components/appButtons/DefaultButton";
 import Link from "next/link";
+import Loader from "components/Loader";
 
 const Tables = () => {
   const [admins, setAdmins] = useState([]);
@@ -120,23 +119,25 @@ const Tables = () => {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
-                        {loading
-                          ? Loading
-                          : admins.map((admin) => (
-                              <tr key={admin._id}>
-                                <th scope="row">
-                                  <Link href={`/admins/${admin._id}`}>
-                                    {admin.fullName}
-                                  </Link>
-                                </th>
-                                <td>{admin.email}</td>
-                                <td>{admin.phone}</td>
-                                <td>{admin.address}</td>
-                                <td>{admin.status}</td>
-                              </tr>
-                            ))}
-                      </tbody>
+                      {loading ? (
+                        <Loader />
+                      ) : (
+                        <tbody>
+                          {admins.map((admin) => (
+                            <tr key={admin._id}>
+                              <th scope="row">
+                                <Link href={`/admins/${admin._id}`}>
+                                  {admin.fullName}
+                                </Link>
+                              </th>
+                              <td>{admin.email}</td>
+                              <td>{admin.phone}</td>
+                              <td>{admin.address}</td>
+                              <td>{admin.status}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      )}
                     </Table>
                     {/* end of code */}
                   </Tab.Pane>

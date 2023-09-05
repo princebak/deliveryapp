@@ -1,11 +1,11 @@
+import Loader from "components/Loader";
 import React from "react";
-import { Loading } from "utils/constant";
 
 const DefaultButton = ({ title, type, className, loading }) => {
   return (
     <>
       {loading ? (
-        Loading
+        <Loader />
       ) : (
         <button type={type} className={className}>
           {title}
